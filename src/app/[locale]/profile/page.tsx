@@ -13,6 +13,7 @@ import { Link } from '@/i18n/navigation';
 export default function ProfilePage() {
   const t = useTranslations('profile');
   const tCommon = useTranslations('common');
+  const tRoot = useTranslations();
   const { user, isAuthenticated } = useAuthStore();
   const { xp, level, badges, streak, articlesRead, likesGiven, xpHistory } = useGamificationStore();
 
@@ -148,7 +149,7 @@ export default function ProfilePage() {
               >
                 <div className="flex items-center gap-3">
                   <Zap className="w-4 h-4 text-indigo-400" />
-                  <span className="text-sm text-gray-300">{event.description}</span>
+                  <span className="text-sm text-gray-300">{tRoot(event.description)}</span>
                 </div>
                 <span className="text-sm font-medium text-indigo-400">+{event.xp} XP</span>
               </div>

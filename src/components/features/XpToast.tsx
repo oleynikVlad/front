@@ -1,0 +1,58 @@
+'use client';
+
+import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, Award } from 'lucide-react';
+import { useUIStore } from '@/store/uiStore';
+
+export default function XpToast() {
+  const { showXpToast, showBadgeToast, setXpToast, setBadgeToast } = useUIStore();
+
+  useEffect(() => {
+    if (showXpToast) {
+      const timer = setTimeout(() => setXpToast(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showXpToast, setXpToast]);
+
+  useEffect(() => {
+    if (showBadgeToast) {
+      const timer = setTimeout(() => setBadgeToast(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showBadgeToast, setBadgeToast]);
+
+  return (
+    <div className="fixed top-20 right-4 z-[90] flex flex-col gap-2">
+      <AnimatePresence>
+        {showXpToast && (
+          <motion.div
+            initial={{ opacity: 0, x: 80, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 80, scale: 0.8 }}
+            className="flex items-center gap-2 px-4 py-2.5 bg-indigo-950/90 border border-indigo-800/40 rounded-xl shadow-lg backdrop-blur-md"
+          >
+            <Zap className="w-4 h-4 text-indigo-400" />
+            <span className="text-sm font-medium text-indigo-200">+{showXpToast.xp} XP</span>
+            <span className="text-xs text-indigo-400/60">{showXpToast.description}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showBadgeToast && (
+          <motion.div
+            initial={{ opacity: 0, x: 80, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 80, scale: 0.8 }}
+            className="flex items-center gap-2 px-4 py-2.5 bg-amber-950/90 border border-amber-800/40 rounded-xl shadow-lg backdrop-blur-md"
+          >
+            <Award className="w-4 h-4 text-amber-400" />
+            <span className="text-sm font-medium text-amber-200">Badge: {showBadgeToast.name}</span>
+            <span className="text-lg">{showBadgeToast.icon}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

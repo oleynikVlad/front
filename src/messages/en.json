@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "title": {
+      "default": "DevBlog - A Modern Blog Platform for Developers",
+      "template": "%s | DevBlog"
+    },
+    "description": "Discover, read, and share developer content. Earn XP, collect badges, and grow with the community.",
+    "keywords": ["blog", "developer", "programming", "technology", "tutorials", "coding"],
+    "authors": [{ "name": "DevBlog" }],
+    "openGraph": {
+      "siteName": "DevBlog",
+      "title": "DevBlog - A Modern Blog Platform for Developers",
+      "description": "Discover, read, and share developer content. Earn XP, collect badges, and grow with the community."
+    },
+    "twitter": {
+      "title": "DevBlog - A Modern Blog Platform for Developers",
+      "description": "Discover, read, and share developer content."
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "search": "Search",
+    "ideas": "Ideas",
+    "write": "Write",
+    "signIn": "Sign In",
+    "logOut": "Log Out",
+    "profile": "Profile",
+    "writePost": "Write Post",
+    "notifications": "Notifications",
+    "noNotifications": "No notifications"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go Home"
+  },
+  "footer": {
+    "tagline": "A modern blog platform for developers. Share knowledge, learn new skills, and grow together.",
+    "platform": "Platform",
+    "categories": "Categories",
+    "more": "More",
+    "blog": "Blog",
+    "search": "Search",
+    "ideas": "Ideas",
+    "signIn": "Sign In",
+    "writePost": "Write Post",
+    "profile": "Profile",
+    "category": {
+      "programming": "Programming",
+      "design": "Design",
+      "ai": "AI & ML",
+      "devops": "DevOps"
+    },
+    "rights": "All rights reserved.",
+    "builtWith": "Built with Next.js, TypeScript & Tailwind CSS"
+  },
+  "common": {
+    "viewAll": "View all"
+  },
+  "home": {
+    "hero": {
+      "titleLine1": "Where Developers",
+      "titleAccent": "Share & Grow",
+      "subtitle": "Discover insightful articles, share your knowledge, and level up your skills. Join the community of developers who learn together.",
+      "ctaStartReading": "Start Reading",
+      "ctaJoin": "Join & Earn XP"
+    },
+    "stats": {
+      "articles": "Articles",
+      "authors": "Authors",
+      "xpToEarn": "XP to Earn"
+    },
+    "categoriesTitle": "Explore Categories",
+    "sections": {
+      "trending": "Trending Now",
+      "latest": "Latest Articles",
+      "recommended": "Recommended for You"
+    }
+  },
+  "categories": {
+    "technology": "Technology",
+    "design": "Design",
+    "programming": "Programming",
+    "devops": "DevOps",
+    "ai": "AI & ML",
+    "web": "Web Dev",
+    "mobile": "Mobile",
+    "career": "Career",
+    "tutorial": "Tutorial",
+    "opinion": "Opinion"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Explore articles from the community",
+    "allCategories": "All Categories",
+    "sort": {
+      "recent": "Most Recent",
+      "popular": "Most Popular",
+      "liked": "Most Liked"
+    },
+    "empty": {
+      "title": "No posts found",
+      "description": "Try changing your filters or check back later."
+    }
+  }
+}
+

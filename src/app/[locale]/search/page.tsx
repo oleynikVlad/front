@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search as SearchIcon, SlidersHorizontal, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,8 +21,9 @@ function SearchPageContent() {
   const initialCategory = searchParams.get('category') || '';
   const initialSort = (searchParams.get('sort') as SortOption) || 'recent';
 
+  const initialSearchQuery = initialQuery || (initialCategory ? ' ' : '');
   const [query, setQuery] = useState(initialQuery);
-  const [searchQuery, setSearchQuery] = useState(initialQuery || initialCategory ? initialQuery : '');
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [category, setCategory] = useState<string>(initialCategory);
   const [sort, setSort] = useState<SortOption>(initialSort);
   const [page, setPage] = useState(1);
@@ -30,12 +31,6 @@ function SearchPageContent() {
   const [readingTimeMin, setReadingTimeMin] = useState('');
   const [readingTimeMax, setReadingTimeMax] = useState('');
   const [minLikes, setMinLikes] = useState('');
-
-  useEffect(() => {
-    if (initialCategory) {
-      setSearchQuery(initialQuery || ' ');
-    }
-  }, [initialCategory, initialQuery]);
 
   const { data, isLoading } = useSearch({
     page,

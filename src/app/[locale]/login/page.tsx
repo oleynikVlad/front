@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLogin } from '@/hooks/useAuth';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default function LoginPage() {
   const router = useRouter();

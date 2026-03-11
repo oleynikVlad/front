@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -17,6 +16,7 @@ import {
   Zap,
   ChevronDown,
 } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import { useAuthStore } from '@/store/authStore';
 import { useGamificationStore } from '@/store/gamificationStore';
 import { useUIStore } from '@/store/uiStore';
@@ -27,14 +27,17 @@ import { XP_LEVELS } from '@/config';
 import Button from '@/components/ui/Button';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/search', label: 'Search' },
-  { href: '/todo', label: 'Ideas' },
+  { href: '/', labelKey: 'home' },
+  { href: '/blog', labelKey: 'blog' },
+  { href: '/search', labelKey: 'search' },
+  { href: '/todo', labelKey: 'ideas' },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('nav');
   const { isAuthenticated, user } = useAuthStore();
   const { xp, level, streak } = useGamificationStore();
   const { notifications, isMobileMenuOpen, toggleMobileMenu, closeMobileMenu, markNotificationRead } = useUIStore();
@@ -86,13 +89,37 @@ export default function Navbar() {
                     : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
                 )}
               >
-                {link.label}
+                {t(link.labelKey)}
               </Link>
             ))}
           </div>
 
           {/* Right Side */}
           <div className="flex items-center gap-2">
+            {/* Locale switch */}
+            <div className="hidden sm:flex items-center bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
+              <button
+                type="button"
+                onClick={() => router.replace(pathname, { locale: 'en' })}
+                className={cn(
+                  'px-2.5 py-1.5 text-xs font-semibold transition-colors',
+                  locale === 'en' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white'
+                )}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => router.replace(pathname, { locale: 'uk' })}
+                className={cn(
+                  'px-2.5 py-1.5 text-xs font-semibold transition-colors',
+                  locale === 'uk' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white'
+                )}
+              >
+                UK
+              </button>
+            </div>
+
             {/* Search */}
             <Link href="/search" className="hidden sm:flex p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-gray-800/50">
               <Search className="w-5 h-5" />
@@ -119,7 +146,7 @@ export default function Navbar() {
                 <Link href="/blog/new">
                   <Button variant="primary" size="sm" className="hidden sm:inline-flex gap-1.5">
                     <PenSquare className="w-4 h-4" />
-                    Write
+                    {t('write')}
                   </Button>
                 </Link>
 
@@ -146,11 +173,11 @@ export default function Navbar() {
                         className="absolute right-0 top-full mt-2 w-80 bg-gray-900 border border-gray-800 rounded-xl shadow-xl overflow-hidden"
                       >
                         <div className="px-4 py-3 border-b border-gray-800">
-                          <h3 className="text-sm font-semibold text-white">Notifications</h3>
+                          <h3 className="text-sm font-semibold text-white">{t('notifications')}</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto">
                           {notifications.length === 0 ? (
-                            <p className="px-4 py-8 text-center text-sm text-gray-500">No notifications</p>
+                            <p className="px-4 py-8 text-center text-sm text-gray-500">{t('noNotifications')}</p>
                           ) : (
                             notifications.map((n) => (
                               <button
@@ -217,7 +244,7 @@ export default function Navbar() {
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
                           >
                             <User className="w-4 h-4" />
-                            Profile
+                            {t('profile')}
                           </Link>
                           <Link
                             href="/blog/new"
@@ -225,7 +252,7 @@ export default function Navbar() {
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
                           >
                             <PenSquare className="w-4 h-4" />
-                            Write Post
+                            {t('writePost')}
                           </Link>
                           <Link
                             href="/todo"
@@ -233,7 +260,7 @@ export default function Navbar() {
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
                           >
                             <Lightbulb className="w-4 h-4" />
-                            Ideas
+                            {t('ideas')}
                           </Link>
                           <button
                             onClick={() => {
@@ -243,7 +270,7 @@ export default function Navbar() {
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/50 transition-colors w-full"
                           >
                             <LogOut className="w-4 h-4" />
-                            Log Out
+                            {t('logOut')}
                           </button>
                         </div>
                       </motion.div>
@@ -255,7 +282,7 @@ export default function Navbar() {
               <Link href="/login">
                 <Button variant="primary" size="sm" className="gap-1.5">
                   <LogIn className="w-4 h-4" />
-                  Sign In
+                  {t('signIn')}
                 </Button>
               </Link>
             )}
@@ -292,7 +319,7 @@ export default function Navbar() {
                         : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
                     )}
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </Link>
                 ))}
                 {isAuthenticated && (
@@ -301,7 +328,7 @@ export default function Navbar() {
                     onClick={closeMobileMenu}
                     className="block px-3 py-2.5 rounded-lg text-sm font-medium text-indigo-400 hover:bg-gray-800/50 transition-colors"
                   >
-                    Write Post
+                    {t('writePost')}
                   </Link>
                 )}
               </div>

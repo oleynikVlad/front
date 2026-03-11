@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { locales } from '@/i18n/routing';
 
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -7,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/profile/'],
+      disallow: ['/api/', ...locales.map((l) => `/${l}/profile/`)],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   };

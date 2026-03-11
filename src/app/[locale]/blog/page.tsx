@@ -10,8 +10,11 @@ import EmptyState from '@/components/ui/EmptyState';
 import type { SortOption } from '@/types';
 import { CATEGORIES } from '@/types';
 import { BookOpen } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function BlogPage() {
+  const t = useTranslations('blog');
+  const tc = useTranslations('categories');
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOption>('recent');
   const [category, setCategory] = useState('');
@@ -27,22 +30,22 @@ export default function BlogPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white">Blog</h1>
-          <p className="text-gray-400 mt-1">Explore articles from the community</p>
+          <h1 className="text-3xl font-bold text-white">{t('title')}</h1>
+          <p className="text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="flex gap-3">
           <Select
             value={category}
             onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-            options={[{ value: '', label: 'All Categories' }, ...CATEGORIES]}
+            options={[{ value: '', label: t('allCategories') }, ...CATEGORIES.map((c) => ({ ...c, label: tc(c.value) }))]}
           />
           <Select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortOption)}
             options={[
-              { value: 'recent', label: 'Most Recent' },
-              { value: 'popular', label: 'Most Popular' },
-              { value: 'liked', label: 'Most Liked' },
+              { value: 'recent', label: t('sort.recent') },
+              { value: 'popular', label: t('sort.popular') },
+              { value: 'liked', label: t('sort.liked') },
             ]}
           />
         </div>
@@ -66,8 +69,8 @@ export default function BlogPage() {
       ) : (
         <EmptyState
           icon={<BookOpen className="w-12 h-12" />}
-          title="No posts found"
-          description="Try changing your filters or check back later."
+          title={t('empty.title')}
+          description={t('empty.description')}
         />
       )}
     </div>

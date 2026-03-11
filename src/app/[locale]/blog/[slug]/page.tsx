@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Heart, Eye, Clock, Calendar, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { usePost, useRelatedPosts, useLikePost, useViewPost } from '@/hooks/usePosts';

@@ -2,7 +2,7 @@ import type { TodoIdea, PaginatedResponse, PaginationParams, SortOption, Categor
 import { mockTodoIdeas } from './mockData';
 import { simulateDelay } from '@/utils/helpers';
 
-let ideas = [...mockTodoIdeas];
+const ideas = [...mockTodoIdeas];
 
 export async function mockGetTodoIdeas(
   params: PaginationParams & { sort?: SortOption; category?: Category }

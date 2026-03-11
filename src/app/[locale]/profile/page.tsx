@@ -7,7 +7,7 @@ import { useGamificationStore } from '@/store/gamificationStore';
 import { getXpForNextLevel } from '@/utils/helpers';
 import { XP_LEVELS, BADGE_DEFINITIONS } from '@/config';
 import Button from '@/components/ui/Button';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default function ProfilePage() {
   const { user, isAuthenticated } = useAuthStore();

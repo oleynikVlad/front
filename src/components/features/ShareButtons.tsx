@@ -9,7 +9,10 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ url, title }: ShareButtonsProps) {
-  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}${url}` : url;
+  const shareUrl =
+    typeof window !== 'undefined'
+      ? new URL(url, window.location.origin).toString()
+      : url;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareUrl);

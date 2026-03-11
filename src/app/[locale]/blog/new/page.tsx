@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { Eye, PenSquare, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCreatePost } from '@/hooks/usePosts';
@@ -11,7 +11,7 @@ import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import MarkdownRenderer from '@/components/features/MarkdownRenderer';
 import { CATEGORIES } from '@/types';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default function NewPostPage() {
   const router = useRouter();

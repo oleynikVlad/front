@@ -1,7 +1,7 @@
 'use client';
 
 import { TrendingUp, Clock, Sparkles, ArrowRight, BookOpen, Users, Zap } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion } from 'framer-motion';
 import { useTrendingPosts, useLatestPosts, useRecommendedPosts } from '@/hooks/usePosts';
 import BlogCard from '@/components/features/BlogCard';
@@ -9,6 +9,7 @@ import { CardSkeleton } from '@/components/ui/Skeleton';
 import Button from '@/components/ui/Button';
 import { CATEGORIES } from '@/types';
 import type { Post } from '@/types';
+import { useTranslations } from 'next-intl';
 
 function PostSection({
   title,
@@ -23,6 +24,8 @@ function PostSection({
   isLoading: boolean;
   href: string;
 }) {
+  const t = useTranslations('common');
+
   return (
     <section className="mb-16">
       <div className="flex items-center justify-between mb-6">
@@ -31,7 +34,7 @@ function PostSection({
           {title}
         </h2>
         <Link href={href} className="flex items-center gap-1 text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
-          View all <ArrowRight className="w-4 h-4" />
+          {t('viewAll')} <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -44,6 +47,8 @@ function PostSection({
 }
 
 export default function HomePage() {
+  const t = useTranslations('home');
+  const tc = useTranslations('categories');
   const trending = useTrendingPosts();
   const latest = useLatestPosts();
   const recommended = useRecommendedPosts();
@@ -56,23 +61,25 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Where Developers
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500"> Share &amp; Grow</span>
+              {t('hero.titleLine1')}{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+                {t('hero.titleAccent')}
+              </span>
             </h1>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
-              Discover insightful articles, share your knowledge, and level up your skills. Join the community of developers who learn together.
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/blog">
                 <Button variant="primary" size="lg" className="gap-2">
                   <BookOpen className="w-5 h-5" />
-                  Start Reading
+                  {t('hero.ctaStartReading')}
                 </Button>
               </Link>
               <Link href="/login">
                 <Button variant="outline" size="lg" className="gap-2">
                   <Zap className="w-5 h-5" />
-                  Join &amp; Earn XP
+                  {t('hero.ctaJoin')}
                 </Button>
               </Link>
             </div>
@@ -86,9 +93,9 @@ export default function HomePage() {
             className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16"
           >
             {[
-              { label: 'Articles', value: '24+', icon: <BookOpen className="w-4 h-4" /> },
-              { label: 'Authors', value: '6+', icon: <Users className="w-4 h-4" /> },
-              { label: 'XP to Earn', value: '10K+', icon: <Zap className="w-4 h-4" /> },
+              { label: t('stats.articles'), value: '24+', icon: <BookOpen className="w-4 h-4" /> },
+              { label: t('stats.authors'), value: '6+', icon: <Users className="w-4 h-4" /> },
+              { label: t('stats.xpToEarn'), value: '10K+', icon: <Zap className="w-4 h-4" /> },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="flex items-center justify-center gap-1.5 text-indigo-400 mb-1">{stat.icon}</div>
@@ -104,7 +111,7 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Categories */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-white mb-6">Explore Categories</h2>
+          <h2 className="text-xl font-bold text-white mb-6">{t('categoriesTitle')}</h2>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((cat) => (
               <Link
@@ -112,14 +119,14 @@ export default function HomePage() {
                 href={`/search?category=${cat.value}`}
                 className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg text-sm text-gray-300 hover:border-indigo-600 hover:text-indigo-400 transition-all duration-200"
               >
-                {cat.label}
+                {tc(cat.value)}
               </Link>
             ))}
           </div>
         </section>
 
         <PostSection
-          title="Trending Now"
+          title={t('sections.trending')}
           icon={<TrendingUp className="w-5 h-5 text-red-400" />}
           posts={trending.data}
           isLoading={trending.isLoading}
@@ -127,7 +134,7 @@ export default function HomePage() {
         />
 
         <PostSection
-          title="Latest Articles"
+          title={t('sections.latest')}
           icon={<Clock className="w-5 h-5 text-blue-400" />}
           posts={latest.data}
           isLoading={latest.isLoading}
@@ -135,7 +142,7 @@ export default function HomePage() {
         />
 
         <PostSection
-          title="Recommended for You"
+          title={t('sections.recommended')}
           icon={<Sparkles className="w-5 h-5 text-amber-400" />}
           posts={recommended.data}
           isLoading={recommended.isLoading}

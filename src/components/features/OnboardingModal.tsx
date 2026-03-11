@@ -3,33 +3,21 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, Zap, BookOpen, Sparkles } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useGamificationStore } from '@/store/gamificationStore';
 import Button from '@/components/ui/Button';
 
-const STEPS = [
-  {
-    icon: <BookOpen className="w-8 h-8 text-indigo-400" />,
-    title: 'Discover Great Content',
-    description: 'Browse trending articles, explore categories, and find posts that match your interests. Our platform helps you discover the best developer content.',
-  },
-  {
-    icon: <Heart className="w-8 h-8 text-pink-400" />,
-    title: 'Like & Engage',
-    description: 'Show appreciation by liking posts and ideas. Your likes help surface the best content for everyone in the community.',
-  },
-  {
-    icon: <Zap className="w-8 h-8 text-amber-400" />,
-    title: 'Earn XP & Level Up',
-    description: 'Earn experience points by reading posts, liking content, and visiting daily. Level up to unlock new badges and showcase your engagement.',
-  },
-  {
-    icon: <Sparkles className="w-8 h-8 text-emerald-400" />,
-    title: 'Build Your Streak',
-    description: 'Visit daily to maintain your streak and earn bonus XP. Unlock special badges for dedication and consistency.',
-  },
+const STEP_ICONS = [
+  <BookOpen key="discover" className="w-8 h-8 text-indigo-400" />,
+  <Heart key="engage" className="w-8 h-8 text-pink-400" />,
+  <Zap key="xp" className="w-8 h-8 text-amber-400" />,
+  <Sparkles key="streak" className="w-8 h-8 text-emerald-400" />,
 ];
 
+const STEP_KEYS = ['discover', 'engage', 'xp', 'streak'] as const;
+
 export default function OnboardingModal() {
+  const t = useTranslations('onboarding');
   const { hasSeenOnboarding, setOnboardingSeen } = useGamificationStore();
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(0);
@@ -47,7 +35,7 @@ export default function OnboardingModal() {
   };
 
   const handleNext = () => {
-    if (step < STEPS.length - 1) {
+    if (step < STEP_KEYS.length - 1) {
       setStep(step + 1);
     } else {
       handleClose();
@@ -83,14 +71,14 @@ export default function OnboardingModal() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
               >
-                <div className="mb-6 flex justify-center">{STEPS[step].icon}</div>
-                <h2 className="text-xl font-bold text-white mb-3">{STEPS[step].title}</h2>
-                <p className="text-sm text-gray-400 leading-relaxed mb-6">{STEPS[step].description}</p>
+                <div className="mb-6 flex justify-center">{STEP_ICONS[step]}</div>
+                <h2 className="text-xl font-bold text-white mb-3">{t(`steps.${STEP_KEYS[step]}.title`)}</h2>
+                <p className="text-sm text-gray-400 leading-relaxed mb-6">{t(`steps.${STEP_KEYS[step]}.description`)}</p>
               </motion.div>
 
               {/* Progress dots */}
               <div className="flex justify-center gap-2 mb-6">
-                {STEPS.map((_, i) => (
+                {STEP_KEYS.map((_, i) => (
                   <div
                     key={i}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
@@ -102,10 +90,10 @@ export default function OnboardingModal() {
 
               <div className="flex gap-3 justify-center">
                 <Button variant="ghost" size="sm" onClick={handleClose}>
-                  Skip
+                  {t('skip')}
                 </Button>
                 <Button variant="primary" size="sm" onClick={handleNext}>
-                  {step < STEPS.length - 1 ? 'Next' : 'Get Started'}
+                  {step < STEP_KEYS.length - 1 ? t('next') : t('getStarted')}
                 </Button>
               </div>
             </div>

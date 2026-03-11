@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { Eye, PenSquare, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useCreatePost } from '@/hooks/usePosts';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@/components/ui/Button';
@@ -15,6 +16,8 @@ import { Link } from '@/i18n/navigation';
 
 export default function NewPostPage() {
   const router = useRouter();
+  const t = useTranslations('newPost');
+  const tCommon = useTranslations('common');
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const createPost = useCreatePost();
 
@@ -30,10 +33,10 @@ export default function NewPostPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <PenSquare className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-white mb-3">Sign in to Write</h1>
-        <p className="text-gray-400 mb-6">You need to be logged in to create a post.</p>
+        <h1 className="text-2xl font-bold text-white mb-3">{t('signInToWrite')}</h1>
+        <p className="text-gray-400 mb-6">{t('signInDescription')}</p>
         <Link href="/login">
-          <Button variant="primary">Sign In</Button>
+          <Button variant="primary">{tCommon('signIn')}</Button>
         </Link>
       </div>
     );
@@ -55,7 +58,7 @@ export default function NewPostPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-white">Write a Post</h1>
+        <h1 className="text-2xl font-bold text-white">{t('writePost')}</h1>
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
@@ -64,7 +67,7 @@ export default function NewPostPage() {
             className="gap-1.5"
           >
             <Eye className="w-4 h-4" />
-            {showPreview ? 'Editor' : 'Preview'}
+            {showPreview ? t('editor') : t('preview')}
           </Button>
           <Button
             variant="primary"
@@ -75,7 +78,7 @@ export default function NewPostPage() {
             className="gap-1.5"
           >
             <Send className="w-4 h-4" />
-            Publish
+            {t('publish')}
           </Button>
         </div>
       </div>
@@ -83,32 +86,32 @@ export default function NewPostPage() {
       {/* Editor Meta */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <Input
-          label="Title"
-          placeholder="Your article title..."
+          label={t('title')}
+          placeholder={t('titlePlaceholder')}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <Input
-          label="Preview Text"
-          placeholder="Brief description..."
+          label={t('previewText')}
+          placeholder={t('previewTextPlaceholder')}
           value={preview}
           onChange={(e) => setPreview(e.target.value)}
         />
         <Select
-          label="Category"
+          label={t('category')}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           options={CATEGORIES}
         />
         <Input
-          label="Tags (comma-separated)"
-          placeholder="react, typescript, nextjs"
+          label={t('tags')}
+          placeholder={t('tagsPlaceholder')}
           value={tags}
           onChange={(e) => setTags(e.target.value)}
         />
         <Input
-          label="Cover Image URL"
-          placeholder="https://..."
+          label={t('coverImage')}
+          placeholder={t('coverImagePlaceholder')}
           value={coverImage}
           onChange={(e) => setCoverImage(e.target.value)}
           className="md:col-span-2"
@@ -126,7 +129,7 @@ export default function NewPostPage() {
           <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
             <div className="px-4 py-2 border-b border-gray-800 flex items-center gap-2">
               <PenSquare className="w-4 h-4 text-gray-500" />
-              <span className="text-xs text-gray-500">Markdown Editor</span>
+              <span className="text-xs text-gray-500">{t('markdownEditor')}</span>
             </div>
             <textarea
               value={content}
@@ -159,13 +162,13 @@ const hello = 'world';
             <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
               <div className="px-4 py-2 border-b border-gray-800 flex items-center gap-2">
                 <Eye className="w-4 h-4 text-gray-500" />
-                <span className="text-xs text-gray-500">Preview</span>
+                <span className="text-xs text-gray-500">{t('preview')}</span>
               </div>
               <div className="p-6 min-h-[500px]">
                 {content ? (
                   <MarkdownRenderer content={content} />
                 ) : (
-                  <p className="text-gray-600 text-sm">Start writing to see a preview...</p>
+                  <p className="text-gray-600 text-sm">{t('startWriting')}</p>
                 )}
               </div>
             </div>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useLogin } from '@/hooks/useAuth';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@/components/ui/Button';
@@ -12,6 +13,7 @@ import { Link } from '@/i18n/navigation';
 
 export default function LoginPage() {
   const router = useRouter();
+  const t = useTranslations('login');
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const login = useLogin();
   const [username, setUsername] = useState('');
@@ -46,23 +48,23 @@ export default function LoginPage() {
             <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
               <span className="text-white font-bold text-lg">D</span>
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
-            <p className="text-sm text-gray-400">Sign in to your DevBlog account</p>
+            <h1 className="text-2xl font-bold text-white mb-2">{t('welcomeBack')}</h1>
+            <p className="text-sm text-gray-400">{t('subtitle')}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              label="Username"
-              placeholder="Enter your username"
+              label={t('username')}
+              placeholder={t('usernamePlaceholder')}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
             />
             <div className="relative">
               <Input
-                label="Password"
+                label={t('password')}
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
+                placeholder={t('passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
@@ -83,28 +85,28 @@ export default function LoginPage() {
               isLoading={login.isPending}
             >
               <LogIn className="w-4 h-4" />
-              Sign In
+              {t('signIn')}
             </Button>
           </form>
 
           <div className="mt-6 p-4 bg-gray-800/50 rounded-xl">
-            <p className="text-xs text-gray-400 text-center mb-2">Demo credentials</p>
+            <p className="text-xs text-gray-400 text-center mb-2">{t('demoCredentials')}</p>
             <div className="flex justify-center gap-6 text-sm">
               <div>
-                <span className="text-gray-500">Username: </span>
+                <span className="text-gray-500">{t('demoUsername')} </span>
                 <span className="text-gray-300 font-mono">demo</span>
               </div>
               <div>
-                <span className="text-gray-500">Password: </span>
+                <span className="text-gray-500">{t('demoPassword')} </span>
                 <span className="text-gray-300 font-mono">demo123</span>
               </div>
             </div>
           </div>
 
           <p className="text-center text-sm text-gray-500 mt-6">
-            Don&apos;t have an account?{' '}
+            {t('noAccount')}{' '}
             <Link href="/login" className="text-indigo-400 hover:text-indigo-300 transition-colors">
-              Sign up
+              {t('signUp')}
             </Link>
           </p>
         </div>

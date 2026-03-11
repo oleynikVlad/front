@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Badge, XPEvent } from '@/types';
+import type { Badge, XPEvent, UserAction } from '@/types';
 import { config } from '@/config';
 import { BADGE_DEFINITIONS } from '@/config';
 import { getLevelFromXp } from '@/utils/helpers';
@@ -17,8 +17,10 @@ interface GamificationState {
   likesGiven: number;
   postsCreated: number;
   xpHistory: XPEvent[];
+  trackedActions: UserAction[];
   hasSeenOnboarding: boolean;
-  addXp: (type: XPEvent['type']) => XPEvent | null;
+  addXp: (type: XPEvent['type'], entityId?: string) => XPEvent | null;
+  hasAction: (actionType: XPEvent['type'], entityId: string) => boolean;
   checkDailyVisit: () => XPEvent | null;
   checkBadges: () => Badge | null;
   setOnboardingSeen: () => void;
@@ -36,32 +38,48 @@ export const useGamificationStore = create<GamificationState>()(
       likesGiven: 0,
       postsCreated: 0,
       xpHistory: [],
+      trackedActions: [],
       hasSeenOnboarding: false,
 
-      addXp: (type) => {
+      hasAction: (actionType, entityId) => {
         const state = get();
+        return state.trackedActions.some(
+          (a) => a.actionType === actionType && a.entityId === entityId
+        );
+      },
+
+      addXp: (type, entityId?) => {
+        const state = get();
+
+        // Deduplication: if entityId is provided, check if action already tracked
+        if (entityId && state.trackedActions.some(
+          (a) => a.actionType === type && a.entityId === entityId
+        )) {
+          return null;
+        }
+
         let xpAmount = 0;
         let description = '';
 
         switch (type) {
           case 'read_post':
             xpAmount = config.xpConfig.readPost;
-            description = 'Read an article';
+            description = 'xp.readPost';
             set({ articlesRead: state.articlesRead + 1 });
             break;
           case 'like_post':
             xpAmount = config.xpConfig.likePost;
-            description = 'Liked a post';
+            description = 'xp.likePost';
             set({ likesGiven: state.likesGiven + 1 });
             break;
           case 'like_idea':
             xpAmount = config.xpConfig.likeIdea;
-            description = 'Liked an idea';
+            description = 'xp.likeIdea';
             set({ likesGiven: state.likesGiven + 1 });
             break;
           case 'daily_visit':
             xpAmount = config.xpConfig.dailyVisit;
-            description = 'Daily visit bonus';
+            description = 'xp.dailyVisit';
             break;
         }
 
@@ -71,10 +89,16 @@ export const useGamificationStore = create<GamificationState>()(
         const newLevel = getLevelFromXp(newXp);
         const event: XPEvent = { type, xp: xpAmount, description };
 
+        // Track the action for deduplication
+        const newTrackedActions = entityId
+          ? [...state.trackedActions, { actionType: type, entityId, createdAt: new Date().toISOString() }]
+          : state.trackedActions;
+
         set({
           xp: newXp,
           level: newLevel,
           xpHistory: [event, ...state.xpHistory].slice(0, 50),
+          trackedActions: newTrackedActions,
         });
 
         return event;
@@ -101,7 +125,7 @@ export const useGamificationStore = create<GamificationState>()(
           set({ streak: 1, lastVisit: now.toISOString() });
         }
 
-        return get().addXp('daily_visit');
+        return get().addXp('daily_visit', `daily-${today}`);
       },
 
       checkBadges: () => {

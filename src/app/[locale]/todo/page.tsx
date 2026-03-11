@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Heart, Lightbulb, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useTodoIdeas, useLikeTodoIdea } from '@/hooks/useTodo';
 import { CardSkeleton } from '@/components/ui/Skeleton';
 import Pagination from '@/components/ui/Pagination';
@@ -60,6 +61,7 @@ function IdeaCard({ idea, index }: { idea: TodoIdea; index: number }) {
 }
 
 export default function TodoPage() {
+  const t = useTranslations('ideas');
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortOption>('liked');
   const [category, setCategory] = useState<string>('');
@@ -77,22 +79,22 @@ export default function TodoPage() {
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-2">
             <Lightbulb className="w-8 h-8 text-amber-400" />
-            Ideas
+            {t('title')}
           </h1>
-          <p className="text-gray-400 mt-1">Vote on feature ideas for the platform</p>
+          <p className="text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="flex gap-3">
           <Select
             value={category}
             onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-            options={[{ value: '', label: 'All Categories' }, ...CATEGORIES]}
+            options={[{ value: '', label: t('allCategories') }, ...CATEGORIES]}
           />
           <Select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortOption)}
             options={[
-              { value: 'liked', label: 'Most Popular' },
-              { value: 'recent', label: 'Most Recent' },
+              { value: 'liked', label: t('sort.popular') },
+              { value: 'recent', label: t('sort.recent') },
             ]}
           />
         </div>
@@ -116,8 +118,8 @@ export default function TodoPage() {
       ) : (
         <EmptyState
           icon={<Lightbulb className="w-12 h-12" />}
-          title="No ideas yet"
-          description="Be the first to suggest an idea for the platform."
+          title={t('empty.title')}
+          description={t('empty.description')}
         />
       )}
     </div>

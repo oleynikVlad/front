@@ -3,9 +3,11 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Award } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useUIStore } from '@/store/uiStore';
 
 export default function XpToast() {
+  const t = useTranslations();
   const { showXpToast, showBadgeToast, setXpToast, setBadgeToast } = useUIStore();
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function XpToast() {
           >
             <Zap className="w-4 h-4 text-indigo-400" />
             <span className="text-sm font-medium text-indigo-200">+{showXpToast.xp} XP</span>
-            <span className="text-xs text-indigo-400/60">{showXpToast.description}</span>
+            <span className="text-xs text-indigo-400/60">{t(showXpToast.description)}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -48,7 +50,7 @@ export default function XpToast() {
             className="flex items-center gap-2 px-4 py-2.5 bg-amber-950/90 border border-amber-800/40 rounded-xl shadow-lg backdrop-blur-md"
           >
             <Award className="w-4 h-4 text-amber-400" />
-            <span className="text-sm font-medium text-amber-200">Badge: {showBadgeToast.name}</span>
+            <span className="text-sm font-medium text-amber-200">{t('xp.badgeEarned', { name: showBadgeToast.name })}</span>
             <span className="text-lg">{showBadgeToast.icon}</span>
           </motion.div>
         )}

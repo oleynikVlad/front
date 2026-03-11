@@ -22,18 +22,18 @@ function IdeaCard({ idea, index }: { idea: TodoIdea; index: number }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition-all duration-300"
+      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
             <Badge variant="primary">{idea.category}</Badge>
           </div>
-          <h3 className="text-lg font-semibold text-gray-100 mb-2">{idea.title}</h3>
-          <p className="text-sm text-gray-400 mb-4">{idea.description}</p>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{idea.title}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{idea.description}</p>
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <div className="flex items-center gap-1.5">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center">
                 <span className="text-[8px] font-bold text-white">{idea.author.displayName.charAt(0)}</span>
               </div>
               <span>{idea.author.displayName}</span>
@@ -48,8 +48,8 @@ function IdeaCard({ idea, index }: { idea: TodoIdea; index: number }) {
           onClick={() => likeMutation.mutate(idea.id)}
           className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-200 shrink-0 ${
             idea.liked
-              ? 'bg-pink-950/50 text-pink-400 border border-pink-800/30'
-              : 'bg-gray-800 text-gray-400 hover:text-pink-400 border border-gray-700 hover:border-pink-800/30'
+              ? 'bg-pink-50 dark:bg-pink-950/50 text-pink-500 dark:text-pink-400 border border-pink-200 dark:border-pink-800/30'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-pink-500 dark:hover:text-pink-400 border border-gray-200 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-800/30'
           }`}
         >
           <Heart className={`w-5 h-5 ${idea.liked ? 'fill-current' : ''}`} />
@@ -77,11 +77,11 @@ export default function TodoPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <Lightbulb className="w-8 h-8 text-amber-400" />
             {t('title')}
           </h1>
-          <p className="text-gray-400 mt-1">{t('subtitle')}</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="flex gap-3">
           <Select

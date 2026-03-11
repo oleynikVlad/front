@@ -28,7 +28,7 @@ export default function ShareButtons({ url, title }: ShareButtonsProps) {
         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 text-gray-500 hover:text-sky-400 hover:bg-gray-800 rounded-lg transition-colors"
+        className="p-2 text-gray-400 hover:text-sky-500 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-sky-400 dark:hover:bg-gray-800 rounded-lg transition-colors"
         aria-label="Share on Twitter"
       >
         <Twitter className="w-4 h-4" />
@@ -37,14 +37,14 @@ export default function ShareButtons({ url, title }: ShareButtonsProps) {
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 text-gray-500 hover:text-blue-400 hover:bg-gray-800 rounded-lg transition-colors"
+        className="p-2 text-gray-400 hover:text-blue-500 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-blue-400 dark:hover:bg-gray-800 rounded-lg transition-colors"
         aria-label="Share on LinkedIn"
       >
         <Linkedin className="w-4 h-4" />
       </a>
       <button
         onClick={handleCopyLink}
-        className="p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
+        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-gray-300 dark:hover:bg-gray-800 rounded-lg transition-colors"
         aria-label="Copy link"
       >
         <LinkIcon className="w-4 h-4" />

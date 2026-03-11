@@ -37,8 +37,8 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-white mb-4">{t('notFound')}</h1>
-        <p className="text-gray-400 mb-6">{t('notFoundDescription')}</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('notFound')}</h1>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">{t('notFoundDescription')}</p>
         <Link href="/blog">
           <Button variant="primary">{t('backToBlog')}</Button>
         </Link>
@@ -53,7 +53,7 @@ export default function BlogPostPage() {
         {/* Back */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           {t('backToBlog')}
@@ -72,13 +72,13 @@ export default function BlogPostPage() {
                   ))}
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
                   {post.title}
                 </h1>
 
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center">
                       <span className="text-xs font-bold text-white">
                         {post.author.displayName.charAt(0)}
                       </span>
@@ -114,14 +114,14 @@ export default function BlogPostPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-between py-6 border-t border-b border-gray-800">
+              <div className="flex items-center justify-between py-6 border-t border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => likePost.mutate(post.id)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
                       post.liked
-                        ? 'bg-pink-950/50 text-pink-400 border border-pink-800/30'
-                        : 'bg-gray-800 text-gray-400 hover:text-pink-400 border border-gray-700'
+                        ? 'bg-pink-50 dark:bg-pink-950/50 text-pink-500 dark:text-pink-400 border border-pink-200 dark:border-pink-800/30'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-pink-500 dark:hover:text-pink-400 border border-gray-200 dark:border-gray-700'
                     }`}
                   >
                     <Heart className={`w-4 h-4 ${post.liked ? 'fill-current' : ''}`} />
@@ -145,7 +145,7 @@ export default function BlogPostPage() {
               {/* Related Posts */}
               {relatedPosts && relatedPosts.length > 0 && (
                 <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-gray-300 mb-3">{t('relatedArticles')}</h3>
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{t('relatedArticles')}</h3>
                   <div className="space-y-3">
                     {relatedPosts.map((rp) => (
                       <BlogCardHorizontal key={rp.id} post={rp} />

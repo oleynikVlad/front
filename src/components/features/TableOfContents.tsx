@@ -47,8 +47,8 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-300 mb-3">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+      <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
         <List className="w-4 h-4" />
         {t('tableOfContents')}
       </h3>
@@ -58,10 +58,10 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
             key={heading.id}
             onClick={() => scrollToHeading(heading.id)}
             className={cn(
-              'block w-full text-left text-sm py-1 transition-colors duration-200 hover:text-indigo-400',
+              'block w-full text-left text-sm py-1 transition-colors duration-200 hover:text-sky-600 dark:hover:text-sky-400',
               heading.level === 2 && 'pl-0',
               heading.level === 3 && 'pl-4',
-              activeId === heading.id ? 'text-indigo-400 font-medium' : 'text-gray-500'
+              activeId === heading.id ? 'text-sky-600 dark:text-sky-400 font-medium' : 'text-gray-500'
             )}
           >
             {heading.text}

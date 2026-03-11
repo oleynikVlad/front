@@ -43,13 +43,13 @@ export default function LoginPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-8">
           <div className="text-center mb-8">
-            <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-sky-600 rounded-xl flex items-center justify-center mx-auto mb-4">
               <span className="text-white font-bold text-lg">D</span>
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">{t('welcomeBack')}</h1>
-            <p className="text-sm text-gray-400">{t('subtitle')}</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t('welcomeBack')}</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('subtitle')}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -72,7 +72,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-[34px] text-gray-500 hover:text-gray-300 transition-colors"
+                className="absolute right-3 top-[34px] text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -89,23 +89,23 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-gray-800/50 rounded-xl">
-            <p className="text-xs text-gray-400 text-center mb-2">{t('demoCredentials')}</p>
+          <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-2">{t('demoCredentials')}</p>
             <div className="flex justify-center gap-6 text-sm">
               <div>
                 <span className="text-gray-500">{t('demoUsername')} </span>
-                <span className="text-gray-300 font-mono">demo</span>
+                <span className="text-gray-700 dark:text-gray-300 font-mono">demo</span>
               </div>
               <div>
                 <span className="text-gray-500">{t('demoPassword')} </span>
-                <span className="text-gray-300 font-mono">demo123</span>
+                <span className="text-gray-700 dark:text-gray-300 font-mono">demo123</span>
               </div>
             </div>
           </div>
 
           <p className="text-center text-sm text-gray-500 mt-6">
             {t('noAccount')}{' '}
-            <Link href="/login" className="text-indigo-400 hover:text-indigo-300 transition-colors">
+            <Link href="/login" className="text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300 transition-colors">
               {t('signUp')}
             </Link>
           </p>

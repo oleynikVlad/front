@@ -25,6 +25,7 @@ import { cn } from '@/utils/cn';
 import { getXpForNextLevel } from '@/utils/helpers';
 import { XP_LEVELS } from '@/config';
 import Button from '@/components/ui/Button';
+import ThemeToggle from '@/components/features/ThemeToggle';
 
 const NAV_LINKS = [
   { href: '/', labelKey: 'home' },
@@ -65,15 +66,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-gray-800/50">
+    <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group" onClick={closeMobileMenu}>
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-sky-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">D</span>
             </div>
-            <span className="text-xl font-bold text-white">DevBlog</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">DevBlog</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -85,8 +86,8 @@ export default function Navbar() {
                 className={cn(
                   'px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200',
                   pathname === link.href
-                    ? 'text-white bg-gray-800'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    ? 'text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-800'
+                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50'
                 )}
               >
                 {t(link.labelKey)}
@@ -97,13 +98,13 @@ export default function Navbar() {
           {/* Right Side */}
           <div className="flex items-center gap-2">
             {/* Locale switch */}
-            <div className="hidden sm:flex items-center bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
+            <div className="hidden sm:flex items-center bg-gray-100 border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg overflow-hidden">
               <button
                 type="button"
                 onClick={() => router.replace(pathname, { locale: 'en' })}
                 className={cn(
                   'px-2.5 py-1.5 text-xs font-semibold transition-colors',
-                  locale === 'en' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white'
+                  locale === 'en' ? 'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
                 )}
               >
                 EN
@@ -113,7 +114,7 @@ export default function Navbar() {
                 onClick={() => router.replace(pathname, { locale: 'uk' })}
                 className={cn(
                   'px-2.5 py-1.5 text-xs font-semibold transition-colors',
-                  locale === 'uk' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white'
+                  locale === 'uk' ? 'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
                 )}
               >
                 UK
@@ -121,17 +122,20 @@ export default function Navbar() {
             </div>
 
             {/* Search */}
-            <Link href="/search" className="hidden sm:flex p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-gray-800/50">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
+            <Link href="/search" className="hidden sm:flex p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50">
               <Search className="w-5 h-5" />
             </Link>
 
             {isAuthenticated ? (
               <>
                 {/* XP Badge */}
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-indigo-950/50 border border-indigo-800/30 rounded-full">
-                  <Zap className="w-3.5 h-3.5 text-indigo-400" />
-                  <span className="text-xs font-medium text-indigo-300">{xp} XP</span>
-                  <span className="text-xs text-indigo-500">Lv.{level}</span>
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 border border-sky-200/30 dark:bg-sky-950/50 dark:border-sky-800/30 rounded-full">
+                  <Zap className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+                  <span className="text-xs font-medium text-sky-700 dark:text-sky-300">{xp} XP</span>
+                  <span className="text-xs text-sky-500">Lv.{level}</span>
                 </div>
 
                 {/* Streak */}
@@ -154,7 +158,7 @@ export default function Navbar() {
                 <div className="relative" ref={notifRef}>
                   <button
                     onClick={() => setShowNotifications(!showNotifications)}
-                    className="relative p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-gray-800/50"
+                    className="relative p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50"
                   >
                     <Bell className="w-5 h-5" />
                     {unreadCount > 0 && (
@@ -170,10 +174,10 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: 8, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                        className="absolute right-0 top-full mt-2 w-80 bg-gray-900 border border-gray-800 rounded-xl shadow-xl overflow-hidden"
+                        className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl overflow-hidden"
                       >
-                        <div className="px-4 py-3 border-b border-gray-800">
-                          <h3 className="text-sm font-semibold text-white">{t('notifications')}</h3>
+                        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+                          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t('notifications')}</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto">
                           {notifications.length === 0 ? (
@@ -184,11 +188,11 @@ export default function Navbar() {
                                 key={n.id}
                                 onClick={() => markNotificationRead(n.id)}
                                 className={cn(
-                                  'w-full px-4 py-3 text-left hover:bg-gray-800/50 transition-colors border-b border-gray-800/50 last:border-0',
-                                  !n.read && 'bg-indigo-950/20'
+                                  'w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-100 dark:border-gray-800/50 last:border-0',
+                                  !n.read && 'bg-sky-50/50 dark:bg-sky-950/20'
                                 )}
                               >
-                                <p className="text-sm font-medium text-gray-200">{n.title}</p>
+                                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{n.title}</p>
                                 <p className="text-xs text-gray-500 mt-0.5">{n.message}</p>
                               </button>
                             ))
@@ -203,14 +207,14 @@ export default function Navbar() {
                 <div className="relative" ref={profileRef}>
                   <button
                     onClick={() => setShowProfile(!showProfile)}
-                    className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-800/50 transition-colors"
+                    className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center">
                       <span className="text-xs font-bold text-white">
                         {user?.displayName?.charAt(0) || 'U'}
                       </span>
                     </div>
-                    <ChevronDown className="w-3.5 h-3.5 text-gray-400 hidden sm:block" />
+                    <ChevronDown className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hidden sm:block" />
                   </button>
 
                   <AnimatePresence>
@@ -219,19 +223,19 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: 8, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                        className="absolute right-0 top-full mt-2 w-64 bg-gray-900 border border-gray-800 rounded-xl shadow-xl overflow-hidden"
+                        className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl overflow-hidden"
                       >
-                        <div className="px-4 py-3 border-b border-gray-800">
-                          <p className="text-sm font-semibold text-white">{user?.displayName}</p>
+                        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{user?.displayName}</p>
                           <p className="text-xs text-gray-500">@{user?.username}</p>
                           <div className="mt-2">
                             <div className="flex items-center justify-between text-xs">
-                              <span className="text-indigo-400">{levelTitle} (Lv.{level})</span>
+                              <span className="text-sky-600 dark:text-sky-400">{levelTitle} (Lv.{level})</span>
                               <span className="text-gray-500">{Math.round(xpProgress.progress)}%</span>
                             </div>
-                            <div className="mt-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                            <div className="mt-1 h-1.5 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-indigo-500 rounded-full transition-all duration-500"
+                                className="h-full bg-sky-500 rounded-full transition-all duration-500"
                                 style={{ width: `${xpProgress.progress}%` }}
                               />
                             </div>
@@ -241,7 +245,7 @@ export default function Navbar() {
                           <Link
                             href="/profile"
                             onClick={() => setShowProfile(false)}
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                           >
                             <User className="w-4 h-4" />
                             {t('profile')}
@@ -249,7 +253,7 @@ export default function Navbar() {
                           <Link
                             href="/blog/new"
                             onClick={() => setShowProfile(false)}
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                           >
                             <PenSquare className="w-4 h-4" />
                             {t('writePost')}
@@ -257,7 +261,7 @@ export default function Navbar() {
                           <Link
                             href="/todo"
                             onClick={() => setShowProfile(false)}
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                           >
                             <Lightbulb className="w-4 h-4" />
                             {t('ideas')}
@@ -267,7 +271,7 @@ export default function Navbar() {
                               logout.mutate();
                               setShowProfile(false);
                             }}
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/50 transition-colors w-full"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors w-full"
                           >
                             <LogOut className="w-4 h-4" />
                             {t('logOut')}
@@ -290,7 +294,7 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 text-gray-400 hover:text-white transition-colors rounded-lg"
+              className="md:hidden p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-lg"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -304,7 +308,7 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden overflow-hidden border-t border-gray-800"
+              className="md:hidden overflow-hidden border-t border-gray-200 dark:border-gray-800"
             >
               <div className="py-3 space-y-1">
                 {NAV_LINKS.map((link) => (
@@ -315,8 +319,8 @@ export default function Navbar() {
                     className={cn(
                       'block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
                       pathname === link.href
-                        ? 'text-white bg-gray-800'
-                        : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                        ? 'text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-800'
+                        : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50'
                     )}
                   >
                     {t(link.labelKey)}
@@ -326,7 +330,7 @@ export default function Navbar() {
                   <Link
                     href="/blog/new"
                     onClick={closeMobileMenu}
-                    className="block px-3 py-2.5 rounded-lg text-sm font-medium text-indigo-400 hover:bg-gray-800/50 transition-colors"
+                    className="block px-3 py-2.5 rounded-lg text-sm font-medium text-sky-600 dark:text-sky-400 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors"
                   >
                     {t('writePost')}
                   </Link>

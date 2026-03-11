@@ -66,8 +66,8 @@ function SearchPageContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">{t('title')}</h1>
-        <p className="text-gray-400">{t('subtitle')}</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('title')}</h1>
+        <p className="text-gray-500 dark:text-gray-400">{t('subtitle')}</p>
       </div>
 
       {/* Search Bar */}
@@ -79,7 +79,7 @@ function SearchPageContent() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('placeholder')}
-            className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
           />
         </div>
         <Button type="submit" variant="primary" className="px-6">
@@ -105,11 +105,11 @@ function SearchPageContent() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden mb-6"
           >
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-gray-300">{t('filters')}</h3>
+                <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">{t('filters')}</h3>
                 {hasActiveFilters && (
-                  <button onClick={clearFilters} className="flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300">
+                  <button onClick={clearFilters} className="flex items-center gap-1 text-xs text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
                     <X className="w-3 h-3" />
                     {t('clearAll')}
                   </button>

@@ -16,12 +16,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed',
+          'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed',
           {
-            'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500': variant === 'primary',
-            'bg-gray-700 text-gray-200 hover:bg-gray-600 focus:ring-gray-500': variant === 'secondary',
-            'text-gray-300 hover:text-white hover:bg-gray-800 focus:ring-gray-500': variant === 'ghost',
-            'border border-gray-600 text-gray-300 hover:bg-gray-800 focus:ring-gray-500': variant === 'outline',
+            'bg-sky-600 text-white hover:bg-sky-700 focus:ring-sky-500': variant === 'primary',
+            'bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 dark:focus:ring-gray-500': variant === 'secondary',
+            'text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-400 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 dark:focus:ring-gray-500': variant === 'ghost',
+            'border border-gray-300 text-gray-600 hover:bg-gray-100 focus:ring-gray-400 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:focus:ring-gray-500': variant === 'outline',
             'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500': variant === 'danger',
           },
           {

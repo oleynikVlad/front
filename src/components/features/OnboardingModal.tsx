@@ -8,7 +8,7 @@ import { useGamificationStore } from '@/store/gamificationStore';
 import Button from '@/components/ui/Button';
 
 const STEP_ICONS = [
-  <BookOpen key="discover" className="w-8 h-8 text-indigo-400" />,
+  <BookOpen key="discover" className="w-8 h-8 text-sky-500" />,
   <Heart key="engage" className="w-8 h-8 text-pink-400" />,
   <Zap key="xp" className="w-8 h-8 text-amber-400" />,
   <Sparkles key="streak" className="w-8 h-8 text-emerald-400" />,
@@ -55,11 +55,11 @@ export default function OnboardingModal() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+            className="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
           >
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-300 transition-colors z-10"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors z-10"
             >
               <X className="w-5 h-5" />
             </button>
@@ -72,8 +72,8 @@ export default function OnboardingModal() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="mb-6 flex justify-center">{STEP_ICONS[step]}</div>
-                <h2 className="text-xl font-bold text-white mb-3">{t(`steps.${STEP_KEYS[step]}.title`)}</h2>
-                <p className="text-sm text-gray-400 leading-relaxed mb-6">{t(`steps.${STEP_KEYS[step]}.description`)}</p>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t(`steps.${STEP_KEYS[step]}.title`)}</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6">{t(`steps.${STEP_KEYS[step]}.description`)}</p>
               </motion.div>
 
               {/* Progress dots */}
@@ -82,7 +82,7 @@ export default function OnboardingModal() {
                   <div
                     key={i}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      i === step ? 'bg-indigo-500 w-6' : 'bg-gray-700'
+                      i === step ? 'bg-sky-500 w-6' : 'bg-gray-300 dark:bg-gray-700'
                     }`}
                   />
                 ))}

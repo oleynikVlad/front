@@ -29,11 +29,11 @@ function PostSection({
   return (
     <section className="mb-16">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="flex items-center gap-2 text-xl font-bold text-white">
+        <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
           {icon}
           {title}
         </h2>
-        <Link href={href} className="flex items-center gap-1 text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
+        <Link href={href} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300 transition-colors">
           {t('viewAll')} <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
@@ -57,16 +57,16 @@ export default function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/20 via-gray-950 to-gray-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-100/50 via-gray-50 to-gray-50 dark:from-sky-950/20 dark:via-gray-950 dark:to-gray-950" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
               {t('hero.titleLine1')}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700">
                 {t('hero.titleAccent')}
               </span>
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-8">
               {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -98,8 +98,8 @@ export default function HomePage() {
               { label: t('stats.xpToEarn'), value: '10K+', icon: <Zap className="w-4 h-4" /> },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="flex items-center justify-center gap-1.5 text-indigo-400 mb-1">{stat.icon}</div>
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
+                <div className="flex items-center justify-center gap-1.5 text-sky-600 dark:text-sky-400 mb-1">{stat.icon}</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
                 <div className="text-xs text-gray-500">{stat.label}</div>
               </div>
             ))}
@@ -111,13 +111,13 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Categories */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-white mb-6">{t('categoriesTitle')}</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">{t('categoriesTitle')}</h2>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.value}
                 href={`/search?category=${cat.value}`}
-                className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg text-sm text-gray-300 hover:border-indigo-600 hover:text-indigo-400 transition-all duration-200"
+                className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:border-sky-500 hover:text-sky-600 dark:hover:border-sky-600 dark:hover:text-sky-400 transition-all duration-200"
               >
                 {tc(cat.value)}
               </Link>

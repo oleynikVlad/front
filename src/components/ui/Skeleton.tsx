@@ -5,12 +5,12 @@ interface SkeletonProps {
 }
 
 export default function Skeleton({ className }: SkeletonProps) {
-  return <div className={cn('animate-pulse bg-gray-800 rounded-lg', className)} />;
+  return <div className={cn('animate-pulse bg-gray-200 dark:bg-gray-800 rounded-lg', className)} />;
 }
 
 export function CardSkeleton() {
   return (
-    <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
       <Skeleton className="h-48 w-full rounded-none" />
       <div className="p-5 space-y-3">
         <Skeleton className="h-4 w-20" />

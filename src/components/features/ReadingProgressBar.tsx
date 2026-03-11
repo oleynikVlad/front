@@ -20,9 +20,9 @@ export default function ReadingProgressBar() {
   }, []);
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-40 h-0.5 bg-gray-800/50">
+    <div className="fixed top-16 left-0 right-0 z-40 h-0.5 bg-gray-200/50 dark:bg-gray-800/50">
       <motion.div
-        className="h-full bg-indigo-500"
+        className="h-full bg-sky-500"
         style={{ width: `${progress}%` }}
         transition={{ duration: 0.1 }}
       />

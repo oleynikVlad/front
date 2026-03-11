@@ -32,11 +32,11 @@ export default function XpToast() {
             initial={{ opacity: 0, x: 80, scale: 0.8 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 80, scale: 0.8 }}
-            className="flex items-center gap-2 px-4 py-2.5 bg-indigo-950/90 border border-indigo-800/40 rounded-xl shadow-lg backdrop-blur-md"
+            className="flex items-center gap-2 px-4 py-2.5 bg-sky-50/90 border border-sky-200/40 dark:bg-sky-950/90 dark:border-sky-800/40 rounded-xl shadow-lg backdrop-blur-md"
           >
-            <Zap className="w-4 h-4 text-indigo-400" />
-            <span className="text-sm font-medium text-indigo-200">+{showXpToast.xp} XP</span>
-            <span className="text-xs text-indigo-400/60">{t(showXpToast.description)}</span>
+            <Zap className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+            <span className="text-sm font-medium text-sky-700 dark:text-sky-200">+{showXpToast.xp} XP</span>
+            <span className="text-xs text-sky-500/60 dark:text-sky-400/60">{t(showXpToast.description)}</span>
           </motion.div>
         )}
       </AnimatePresence>

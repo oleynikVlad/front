@@ -35,8 +35,8 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
           <AlertTriangle className="w-12 h-12 text-amber-500 mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">Something went wrong</h2>
-          <p className="text-sm text-gray-400 mb-6 max-w-md">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Something went wrong</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 max-w-md">
             An unexpected error occurred. Please try refreshing the page.
           </p>
           <Button variant="primary" onClick={this.handleReset} className="gap-2">

@@ -32,9 +32,9 @@ export default function NewPostPage() {
   if (!isAuthenticated) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <PenSquare className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-white mb-3">{t('signInToWrite')}</h1>
-        <p className="text-gray-400 mb-6">{t('signInDescription')}</p>
+        <PenSquare className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t('signInToWrite')}</h1>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">{t('signInDescription')}</p>
         <Link href="/login">
           <Button variant="primary">{tCommon('signIn')}</Button>
         </Link>
@@ -58,7 +58,7 @@ export default function NewPostPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-white">{t('writePost')}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('writePost')}</h1>
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
@@ -126,10 +126,10 @@ export default function NewPostPage() {
           animate={{ width: showPreview ? '100%' : '100%' }}
           className={showPreview ? 'hidden lg:block' : 'lg:col-span-2'}
         >
-          <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-            <div className="px-4 py-2 border-b border-gray-800 flex items-center gap-2">
-              <PenSquare className="w-4 h-4 text-gray-500" />
-              <span className="text-xs text-gray-500">{t('markdownEditor')}</span>
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-800 flex items-center gap-2">
+              <PenSquare className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+              <span className="text-xs text-gray-400 dark:text-gray-500">{t('markdownEditor')}</span>
             </div>
             <textarea
               value={content}
@@ -151,7 +151,7 @@ const hello = 'world';
 - Item 1
 - Item 2
 - Item 3"
-              className="w-full h-[500px] bg-transparent text-gray-100 px-4 py-4 resize-none focus:outline-none font-mono text-sm placeholder-gray-600"
+              className="w-full h-[500px] bg-transparent text-gray-900 dark:text-gray-100 px-4 py-4 resize-none focus:outline-none font-mono text-sm placeholder-gray-400 dark:placeholder-gray-600"
             />
           </div>
         </motion.div>
@@ -159,16 +159,16 @@ const hello = 'world';
         {/* Preview */}
         {(showPreview || true) && (
           <div className={`${showPreview ? 'lg:col-span-2' : ''}`}>
-            <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-              <div className="px-4 py-2 border-b border-gray-800 flex items-center gap-2">
-                <Eye className="w-4 h-4 text-gray-500" />
-                <span className="text-xs text-gray-500">{t('preview')}</span>
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+              <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-800 flex items-center gap-2">
+                <Eye className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                <span className="text-xs text-gray-400 dark:text-gray-500">{t('preview')}</span>
               </div>
               <div className="p-6 min-h-[500px]">
                 {content ? (
                   <MarkdownRenderer content={content} />
                 ) : (
-                  <p className="text-gray-600 text-sm">{t('startWriting')}</p>
+                  <p className="text-gray-400 dark:text-gray-600 text-sm">{t('startWriting')}</p>
                 )}
               </div>
             </div>

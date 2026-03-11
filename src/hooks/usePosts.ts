@@ -60,11 +60,11 @@ export function useLikePost() {
 
   return useMutation({
     mutationFn: (postId: string) => postsApi.likePost(postId),
-    onSuccess: (data) => {
+    onSuccess: (data, postId) => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['post'] });
       if (data.liked) {
-        const event = addXp('like_post');
+        const event = addXp('like_post', postId);
         if (event) setXpToast({ xp: event.xp, description: event.description });
         const badge = checkBadges();
         if (badge) setBadgeToast({ name: badge.name, icon: badge.icon });
@@ -81,8 +81,8 @@ export function useViewPost() {
 
   return useMutation({
     mutationFn: (postId: string) => postsApi.viewPost(postId),
-    onSuccess: () => {
-      const event = addXp('read_post');
+    onSuccess: (_data, postId) => {
+      const event = addXp('read_post', postId);
       if (event) setXpToast({ xp: event.xp, description: event.description });
       const badge = checkBadges();
       if (badge) setBadgeToast({ name: badge.name, icon: badge.icon });

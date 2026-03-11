@@ -145,6 +145,12 @@ export interface XPEvent {
   description: string;
 }
 
+export interface UserAction {
+  actionType: XPEvent['type'];
+  entityId: string;
+  createdAt: string;
+}
+
 export interface GamificationState {
   xp: number;
   level: number;

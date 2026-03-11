@@ -56,7 +56,9 @@
     "builtWith": "Built with Next.js, TypeScript & Tailwind CSS"
   },
   "common": {
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "signIn": "Sign In",
+    "backToBlog": "Back to Blog"
   },
   "home": {
     "hero": {
@@ -103,6 +105,141 @@
       "title": "No posts found",
       "description": "Try changing your filters or check back later."
     }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "subtitle": "Sign in to your DevBlog account",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "demoCredentials": "Demo credentials",
+    "demoUsername": "Username:",
+    "demoPassword": "Password:",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "post": {
+    "notFound": "Post not found",
+    "notFoundDescription": "The article you're looking for doesn't exist.",
+    "backToBlog": "Back to Blog",
+    "minRead": "{minutes} min read",
+    "views": "{count} views",
+    "relatedArticles": "Related Articles"
+  },
+  "newPost": {
+    "signInToWrite": "Sign in to Write",
+    "signInDescription": "You need to be logged in to create a post.",
+    "writePost": "Write a Post",
+    "editor": "Editor",
+    "preview": "Preview",
+    "publish": "Publish",
+    "title": "Title",
+    "titlePlaceholder": "Your article title...",
+    "previewText": "Preview Text",
+    "previewTextPlaceholder": "Brief description...",
+    "category": "Category",
+    "tags": "Tags (comma-separated)",
+    "tagsPlaceholder": "react, typescript, nextjs",
+    "coverImage": "Cover Image URL",
+    "coverImagePlaceholder": "https://...",
+    "markdownEditor": "Markdown Editor",
+    "startWriting": "Start writing to see a preview..."
+  },
+  "profile": {
+    "signInToView": "Sign in to view your profile",
+    "signInDescription": "Track your XP, badges, and reading stats.",
+    "level": "Level {level}",
+    "progressToLevel": "{progress}% to Level {nextLevel}",
+    "xpCurrent": "{xp} XP",
+    "xpNeeded": "{xp} XP needed",
+    "articlesRead": "Articles Read",
+    "likesGiven": "Likes Given",
+    "dayStreak": "Day Streak",
+    "badgesEarned": "Badges Earned",
+    "badges": "Badges",
+    "earned": "Earned",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No activity yet. Start reading and engaging!"
+  },
+  "search": {
+    "title": "Search",
+    "subtitle": "Find articles across the platform",
+    "placeholder": "Search articles, tags, authors...",
+    "searchButton": "Search",
+    "filters": "Filters",
+    "clearAll": "Clear all",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "minReadingTime": "Min Reading Time (min)",
+    "maxReadingTime": "Max Reading Time (min)",
+    "minLikes": "Min Likes",
+    "sort": {
+      "recent": "Most Recent",
+      "popular": "Most Popular",
+      "liked": "Most Liked"
+    },
+    "resultsFound": "{count} result(s) found",
+    "enterSearchTerm": "Enter a search term to begin",
+    "noResults": "No results found",
+    "noResultsDescription": "Try different keywords or adjust your filters."
+  },
+  "ideas": {
+    "title": "Ideas",
+    "subtitle": "Vote on feature ideas for the platform",
+    "allCategories": "All Categories",
+    "sort": {
+      "popular": "Most Popular",
+      "recent": "Most Recent"
+    },
+    "empty": {
+      "title": "No ideas yet",
+      "description": "Be the first to suggest an idea for the platform."
+    }
+  },
+  "onboarding": {
+    "steps": {
+      "discover": {
+        "title": "Discover Great Content",
+        "description": "Browse trending articles, explore categories, and find posts that match your interests. Our platform helps you discover the best developer content."
+      },
+      "engage": {
+        "title": "Like & Engage",
+        "description": "Show appreciation by liking posts and ideas. Your likes help surface the best content for everyone in the community."
+      },
+      "xp": {
+        "title": "Earn XP & Level Up",
+        "description": "Earn experience points by reading posts, liking content, and visiting daily. Level up to unlock new badges and showcase your engagement."
+      },
+      "streak": {
+        "title": "Build Your Streak",
+        "description": "Visit daily to maintain your streak and earn bonus XP. Unlock special badges for dedication and consistency."
+      }
+    },
+    "skip": "Skip",
+    "next": "Next",
+    "getStarted": "Get Started"
+  },
+  "share": {
+    "label": "Share:",
+    "linkCopied": "Link copied to clipboard!"
+  },
+  "tableOfContents": "Table of Contents",
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try refreshing the page.",
+    "tryAgain": "Try Again"
+  },
+  "xp": {
+    "badgeEarned": "Badge: {name}",
+    "readPost": "Read an article",
+    "likePost": "Liked a post",
+    "likeIdea": "Liked an idea",
+    "dailyVisit": "Daily visit bonus"
+  },
+  "toast": {
+    "postPublished": "Post published successfully!",
+    "postPublishFailed": "Failed to publish post"
   }
 }
-

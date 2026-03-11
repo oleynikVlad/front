@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search as SearchIcon, SlidersHorizontal, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useSearch } from '@/hooks/useSearch';
 import BlogCard from '@/components/features/BlogCard';
 import { CardSkeleton } from '@/components/ui/Skeleton';
@@ -16,6 +17,7 @@ import { CATEGORIES } from '@/types';
 import type { SortOption, Category } from '@/types';
 
 function SearchPageContent() {
+  const t = useTranslations('search');
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   const initialCategory = searchParams.get('category') || '';
@@ -64,8 +66,8 @@ function SearchPageContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Search</h1>
-        <p className="text-gray-400">Find articles across the platform</p>
+        <h1 className="text-3xl font-bold text-white mb-2">{t('title')}</h1>
+        <p className="text-gray-400">{t('subtitle')}</p>
       </div>
 
       {/* Search Bar */}
@@ -76,12 +78,12 @@ function SearchPageContent() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search articles, tags, authors..."
+            placeholder={t('placeholder')}
             className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
           />
         </div>
         <Button type="submit" variant="primary" className="px-6">
-          Search
+          {t('searchButton')}
         </Button>
         <Button
           type="button"
@@ -90,7 +92,7 @@ function SearchPageContent() {
           className="gap-1.5"
         >
           <SlidersHorizontal className="w-4 h-4" />
-          Filters
+          {t('filters')}
         </Button>
       </form>
 
@@ -105,37 +107,37 @@ function SearchPageContent() {
           >
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-gray-300">Filters</h3>
+                <h3 className="text-sm font-semibold text-gray-300">{t('filters')}</h3>
                 {hasActiveFilters && (
                   <button onClick={clearFilters} className="flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300">
                     <X className="w-3 h-3" />
-                    Clear all
+                    {t('clearAll')}
                   </button>
                 )}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Select
-                  label="Category"
+                  label={t('category')}
                   value={category}
                   onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-                  options={[{ value: '', label: 'All Categories' }, ...CATEGORIES]}
+                  options={[{ value: '', label: t('allCategories') }, ...CATEGORIES]}
                 />
                 <Input
-                  label="Min Reading Time (min)"
+                  label={t('minReadingTime')}
                   type="number"
                   placeholder="0"
                   value={readingTimeMin}
                   onChange={(e) => setReadingTimeMin(e.target.value)}
                 />
                 <Input
-                  label="Max Reading Time (min)"
+                  label={t('maxReadingTime')}
                   type="number"
                   placeholder="30"
                   value={readingTimeMax}
                   onChange={(e) => setReadingTimeMax(e.target.value)}
                 />
                 <Input
-                  label="Min Likes"
+                  label={t('minLikes')}
                   type="number"
                   placeholder="0"
                   value={minLikes}
@@ -150,15 +152,15 @@ function SearchPageContent() {
       {/* Sort */}
       <div className="flex items-center justify-between mb-6">
         <div className="text-sm text-gray-500">
-          {data ? `${data.total} result${data.total !== 1 ? 's' : ''} found` : 'Enter a search term to begin'}
+          {data ? t('resultsFound', { count: data.total }) : t('enterSearchTerm')}
         </div>
         <Select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortOption)}
           options={[
-            { value: 'recent', label: 'Most Recent' },
-            { value: 'popular', label: 'Most Popular' },
-            { value: 'liked', label: 'Most Liked' },
+            { value: 'recent', label: t('sort.recent') },
+            { value: 'popular', label: t('sort.popular') },
+            { value: 'liked', label: t('sort.liked') },
           ]}
         />
       </div>
@@ -181,8 +183,8 @@ function SearchPageContent() {
         </>
       ) : searchQuery ? (
         <EmptyState
-          title="No results found"
-          description="Try different keywords or adjust your filters."
+          title={t('noResults')}
+          description={t('noResultsDescription')}
         />
       ) : null}
     </div>

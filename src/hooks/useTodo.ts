@@ -22,10 +22,10 @@ export function useLikeTodoIdea() {
 
   return useMutation({
     mutationFn: (ideaId: string) => todoApi.likeTodoIdea(ideaId),
-    onSuccess: (data) => {
+    onSuccess: (data, ideaId) => {
       queryClient.invalidateQueries({ queryKey: ['todo'] });
       if (data.liked) {
-        const event = addXp('like_idea');
+        const event = addXp('like_idea', ideaId);
         if (event) setXpToast({ xp: event.xp, description: event.description });
         const badge = checkBadges();
         if (badge) setBadgeToast({ name: badge.name, icon: badge.icon });

@@ -7,6 +7,7 @@ import { Link } from '@/i18n/navigation';
 import { Heart, Eye, Clock, Calendar, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { usePost, useRelatedPosts, useLikePost, useViewPost } from '@/hooks/usePosts';
+import { useTranslations } from 'next-intl';
 import { PostPageSkeleton } from '@/components/ui/Skeleton';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
@@ -18,6 +19,7 @@ import { BlogCardHorizontal } from '@/components/features/BlogCard';
 import { formatDate, formatNumber } from '@/utils/helpers';
 
 export default function BlogPostPage() {
+  const t = useTranslations('post');
   const params = useParams();
   const slug = params.slug as string;
   const { data: post, isLoading } = usePost(slug);
@@ -35,10 +37,10 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-white mb-4">Post not found</h1>
-        <p className="text-gray-400 mb-6">The article you&apos;re looking for doesn&apos;t exist.</p>
+        <h1 className="text-2xl font-bold text-white mb-4">{t('notFound')}</h1>
+        <p className="text-gray-400 mb-6">{t('notFoundDescription')}</p>
         <Link href="/blog">
-          <Button variant="primary">Back to Blog</Button>
+          <Button variant="primary">{t('backToBlog')}</Button>
         </Link>
       </div>
     );
@@ -54,7 +56,7 @@ export default function BlogPostPage() {
           className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Blog
+          {t('backToBlog')}
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
@@ -89,7 +91,7 @@ export default function BlogPostPage() {
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
-                    {post.readingTime} min read
+                    {t('minRead', { minutes: post.readingTime })}
                   </span>
                 </div>
               </div>
@@ -127,7 +129,7 @@ export default function BlogPostPage() {
                   </button>
                   <div className="flex items-center gap-1.5 text-gray-500 text-sm">
                     <Eye className="w-4 h-4" />
-                    {formatNumber(post.views)} views
+                    {t('views', { count: formatNumber(post.views) })}
                   </div>
                 </div>
                 <ShareButtons url={`/blog/${post.slug}`} title={post.title} />
@@ -143,7 +145,7 @@ export default function BlogPostPage() {
               {/* Related Posts */}
               {relatedPosts && relatedPosts.length > 0 && (
                 <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-gray-300 mb-3">Related Articles</h3>
+                  <h3 className="text-sm font-semibold text-gray-300 mb-3">{t('relatedArticles')}</h3>
                   <div className="space-y-3">
                     {relatedPosts.map((rp) => (
                       <BlogCardHorizontal key={rp.id} post={rp} />

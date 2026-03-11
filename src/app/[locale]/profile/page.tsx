@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Zap, Award, Flame, BookOpen, Heart, Calendar } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/store/authStore';
 import { useGamificationStore } from '@/store/gamificationStore';
 import { getXpForNextLevel } from '@/utils/helpers';
@@ -10,16 +11,18 @@ import Button from '@/components/ui/Button';
 import { Link } from '@/i18n/navigation';
 
 export default function ProfilePage() {
+  const t = useTranslations('profile');
+  const tCommon = useTranslations('common');
   const { user, isAuthenticated } = useAuthStore();
   const { xp, level, badges, streak, articlesRead, likesGiven, xpHistory } = useGamificationStore();
 
   if (!isAuthenticated) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-white mb-3">Sign in to view your profile</h1>
-        <p className="text-gray-400 mb-6">Track your XP, badges, and reading stats.</p>
+        <h1 className="text-2xl font-bold text-white mb-3">{t('signInToView')}</h1>
+        <p className="text-gray-400 mb-6">{t('signInDescription')}</p>
         <Link href="/login">
-          <Button variant="primary">Sign In</Button>
+          <Button variant="primary">{tCommon('signIn')}</Button>
         </Link>
       </div>
     );
@@ -52,15 +55,15 @@ export default function ProfilePage() {
               <span className="text-2xl font-bold">{xp}</span>
               <span className="text-sm text-indigo-500">XP</span>
             </div>
-            <p className="text-sm text-gray-400">{levelTitle} &middot; Level {level}</p>
+            <p className="text-sm text-gray-400">{levelTitle} &middot; {t('level', { level })}</p>
           </div>
         </div>
 
         {/* XP Progress Bar */}
         <div className="mt-6">
           <div className="flex justify-between text-xs text-gray-500 mb-1.5">
-            <span>Level {level}</span>
-            <span>{Math.round(xpProgress.progress)}% to Level {Math.min(level + 1, 10)}</span>
+            <span>{t('level', { level })}</span>
+            <span>{t('progressToLevel', { progress: Math.round(xpProgress.progress), nextLevel: Math.min(level + 1, 10) })}</span>
           </div>
           <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
             <motion.div
@@ -71,8 +74,8 @@ export default function ProfilePage() {
             />
           </div>
           <div className="flex justify-between text-xs text-gray-600 mt-1">
-            <span>{xpProgress.current} XP</span>
-            <span>{xpProgress.needed} XP needed</span>
+            <span>{t('xpCurrent', { xp: xpProgress.current })}</span>
+            <span>{t('xpNeeded', { xp: xpProgress.needed })}</span>
           </div>
         </div>
       </motion.div>
@@ -80,10 +83,10 @@ export default function ProfilePage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Articles Read', value: articlesRead, icon: <BookOpen className="w-5 h-5 text-blue-400" /> },
-          { label: 'Likes Given', value: likesGiven, icon: <Heart className="w-5 h-5 text-pink-400" /> },
-          { label: 'Day Streak', value: streak, icon: <Flame className="w-5 h-5 text-amber-400" /> },
-          { label: 'Badges Earned', value: badges.length, icon: <Award className="w-5 h-5 text-emerald-300" /> },
+          { label: t('articlesRead'), value: articlesRead, icon: <BookOpen className="w-5 h-5 text-blue-400" /> },
+          { label: t('likesGiven'), value: likesGiven, icon: <Heart className="w-5 h-5 text-pink-400" /> },
+          { label: t('dayStreak'), value: streak, icon: <Flame className="w-5 h-5 text-amber-400" /> },
+          { label: t('badgesEarned'), value: badges.length, icon: <Award className="w-5 h-5 text-emerald-300" /> },
         ].map((stat) => (
           <motion.div
             key={stat.label}
@@ -102,7 +105,7 @@ export default function ProfilePage() {
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-8">
         <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <Award className="w-5 h-5 text-amber-400" />
-          Badges
+          {t('badges')}
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {BADGE_DEFINITIONS.map((badge) => {
@@ -120,7 +123,7 @@ export default function ProfilePage() {
                 <h3 className="text-sm font-semibold text-gray-200">{badge.name}</h3>
                 <p className="text-xs text-gray-500 mt-0.5">{badge.description}</p>
                 {earned && (
-                  <span className="inline-block mt-2 text-[10px] text-indigo-400 font-medium">Earned</span>
+                  <span className="inline-block mt-2 text-[10px] text-indigo-400 font-medium">{t('earned')}</span>
                 )}
               </div>
             );
@@ -132,10 +135,10 @@ export default function ProfilePage() {
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
         <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <Calendar className="w-5 h-5 text-indigo-400" />
-          Recent Activity
+          {t('recentActivity')}
         </h2>
         {xpHistory.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-8">No activity yet. Start reading and engaging!</p>
+          <p className="text-sm text-gray-500 text-center py-8">{t('noActivity')}</p>
         ) : (
           <div className="space-y-2">
             {xpHistory.slice(0, 10).map((event, i) => (

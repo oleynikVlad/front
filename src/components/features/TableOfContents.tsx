@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { List } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/utils/cn';
 import { extractHeadings } from '@/utils/helpers';
 
@@ -10,6 +11,7 @@ interface TableOfContentsProps {
 }
 
 export default function TableOfContents({ content }: TableOfContentsProps) {
+  const t = useTranslations();
   const headings = extractHeadings(content);
   const [activeId, setActiveId] = useState('');
 
@@ -48,7 +50,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
       <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-300 mb-3">
         <List className="w-4 h-4" />
-        Table of Contents
+        {t('tableOfContents')}
       </h3>
       <nav className="space-y-1">
         {headings.map((heading) => (

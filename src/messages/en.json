@@ -114,11 +114,27 @@
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
     "signIn": "Sign In",
-    "demoCredentials": "Demo credentials",
+    "demoCredentials": "Demo user",
     "demoUsername": "Username:",
     "demoPassword": "Password:",
     "noAccount": "Don't have an account?",
     "signUp": "Sign up"
+  },
+  "register": {
+    "welcomeBack": "Welcome",
+    "subtitle": "Create your DevBlog account",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "signUp": "Sign up",
+    "haveAccount": "Already have an account?"
+  },
+  "validation": {
+    "usernameMin": "Username must be at least 3 characters",
+    "usernameMax": "Username is too long",
+    "passwordMin": "Password must be at least 8 characters"
   },
   "post": {
     "notFound": "Post not found",

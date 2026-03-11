@@ -1,6 +1,6 @@
 export const config = {
   apiMode: (process.env.NEXT_PUBLIC_API_MODE || 'mock') as 'mock' | 'real',
-  apiBaseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
+  apiBaseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
   appName: 'DevBlog',
   appDescription: 'A modern blog platform for developers',
   appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',

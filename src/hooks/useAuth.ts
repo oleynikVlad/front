@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/authStore';
 import { authApi } from '@/services/api/authApi';
-import type { LoginCredentials } from '@/types';
+import {LoginCredentials, NestErrorResponse, RegisterCredentials} from '@/types';
 import toast from 'react-hot-toast';
 
 export function useLogin() {
@@ -15,8 +15,35 @@ export function useLogin() {
       setAuth(data.user, data.tokens);
       toast.success('Welcome back!');
     },
-    onError: () => {
-      toast.error('Invalid credentials. Try demo / demo123');
+    onError: (error:NestErrorResponse) => {
+      if (Array.isArray(error.message)) {
+        error.message.forEach((item) => {
+          toast.error(item);
+        });
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
+}
+
+export function useRegister() {
+  const setAuth = useAuthStore((s) => s.setAuth);
+
+  return useMutation({
+    mutationFn: (credentials: RegisterCredentials) => authApi.register(credentials),
+    onSuccess: (data) => {
+      setAuth(data.user, data.tokens);
+      toast.success('Welcome!');
+    },
+    onError: (error:NestErrorResponse) => {
+      if (Array.isArray(error.message)) {
+        error.message.forEach((item) => {
+          toast.error(item);
+        });
+      } else {
+        toast.error(error.message);
+      }
     },
   });
 }

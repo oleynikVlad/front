@@ -1,4 +1,4 @@
-import type { AuthResponse, LoginCredentials, User } from '@/types';
+import type {AuthResponse, LoginCredentials, RegisterCredentials, User} from '@/types';
 import { config } from '@/config';
 import { mockLogin, mockLogout, mockGetProfile } from '../mock/mockAuth';
 import apiClient from '../client';
@@ -9,6 +9,15 @@ export const authApi = {
       return mockLogin(credentials);
     }
     const { data } = await apiClient.post<AuthResponse>('/auth/login', credentials);
+    return data;
+  },
+
+  async register(credentials: RegisterCredentials): Promise<AuthResponse> {
+    if (config.apiMode === 'mock') {
+      return mockLogin(credentials);
+    }
+    const { data } = await apiClient.post<AuthResponse>('/auth/register', credentials);
+
     return data;
   },
 

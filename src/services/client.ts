@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { config } from '@/config';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 const apiClient = axios.create({
-  baseURL: config.apiBaseUrl,
+  baseURL: API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

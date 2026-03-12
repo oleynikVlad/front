@@ -1,29 +1,30 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useGamificationStore } from '@/store/gamificationStore';
-import { useUIStore } from '@/store/uiStore';
+import { recordActivity } from '@/lib/api/activity';
 
+/**
+ * DailyVisitChecker records a daily_visit activity via the backend API.
+ * The backend handles XP calculation, streak tracking, and badge awarding.
+ */
 export default function DailyVisitChecker() {
-  const checkDailyVisit = useGamificationStore((s) => s.checkDailyVisit);
-  const checkBadges = useGamificationStore((s) => s.checkBadges);
-  const setXpToast = useUIStore((s) => s.setXpToast);
-  const setBadgeToast = useUIStore((s) => s.setBadgeToast);
-
   useEffect(() => {
-    const event = checkDailyVisit();
-    if (event) {
-      setTimeout(() => {
-        setXpToast({ xp: event.xp, description: event.description });
-      }, 2000);
-    }
-    const badge = checkBadges();
-    if (badge) {
-      setTimeout(() => {
-        setBadgeToast({ name: badge.name, icon: badge.icon });
-      }, 3500);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const today = new Date().toISOString().split('T')[0];
+    const lastVisit = localStorage.getItem('lastDailyVisit');
+
+    if (lastVisit === today) return;
+
+    const token = localStorage.getItem('accessToken');
+    if (!token) return;
+
+    recordActivity('daily_visit', `daily-${today}`, token)
+      .then(() => {
+        localStorage.setItem('lastDailyVisit', today);
+      })
+      .catch(() => {
+        // Silently fail — backend may not be available yet
+      });
+  }, []);
 
   return null;
 }

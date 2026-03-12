@@ -2,7 +2,6 @@
 
 import { create } from 'zustand';
 import type { Notification } from '@/types';
-import { mockNotifications } from '@/services/mock/mockData';
 
 interface UIState {
   isMobileMenuOpen: boolean;
@@ -11,6 +10,7 @@ interface UIState {
   showBadgeToast: { name: string; icon: string } | null;
   toggleMobileMenu: () => void;
   closeMobileMenu: () => void;
+  setNotifications: (notifications: Notification[]) => void;
   markNotificationRead: (id: string) => void;
   setXpToast: (toast: { xp: number; description: string } | null) => void;
   setBadgeToast: (toast: { name: string; icon: string } | null) => void;
@@ -18,11 +18,12 @@ interface UIState {
 
 export const useUIStore = create<UIState>((set) => ({
   isMobileMenuOpen: false,
-  notifications: mockNotifications,
+  notifications: [],
   showXpToast: null,
   showBadgeToast: null,
   toggleMobileMenu: () => set((s) => ({ isMobileMenuOpen: !s.isMobileMenuOpen })),
   closeMobileMenu: () => set({ isMobileMenuOpen: false }),
+  setNotifications: (notifications) => set({ notifications }),
   markNotificationRead: (id) =>
     set((s) => ({
       notifications: s.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)),

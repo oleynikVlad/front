@@ -3,8 +3,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postsApi } from '@/services/api/postsApi';
 import type { SearchFilters, SortOption, PaginationParams, PostCreate } from '@/types';
-import { useGamificationStore } from '@/store/gamificationStore';
-import { useUIStore } from '@/store/uiStore';
 import toast from 'react-hot-toast';
 
 export function useTrendingPosts() {
@@ -53,40 +51,19 @@ export function useRelatedPosts(postId: string) {
 
 export function useLikePost() {
   const queryClient = useQueryClient();
-  const addXp = useGamificationStore((s) => s.addXp);
-  const checkBadges = useGamificationStore((s) => s.checkBadges);
-  const setXpToast = useUIStore((s) => s.setXpToast);
-  const setBadgeToast = useUIStore((s) => s.setBadgeToast);
 
   return useMutation({
     mutationFn: (postId: string) => postsApi.likePost(postId),
-    onSuccess: (data, postId) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['post'] });
-      if (data.liked) {
-        const event = addXp('like_post', postId);
-        if (event) setXpToast({ xp: event.xp, description: event.description });
-        const badge = checkBadges();
-        if (badge) setBadgeToast({ name: badge.name, icon: badge.icon });
-      }
     },
   });
 }
 
 export function useViewPost() {
-  const addXp = useGamificationStore((s) => s.addXp);
-  const checkBadges = useGamificationStore((s) => s.checkBadges);
-  const setXpToast = useUIStore((s) => s.setXpToast);
-  const setBadgeToast = useUIStore((s) => s.setBadgeToast);
-
   return useMutation({
     mutationFn: (postId: string) => postsApi.viewPost(postId),
-    onSuccess: (_data, postId) => {
-      const event = addXp('read_post', postId);
-      if (event) setXpToast({ xp: event.xp, description: event.description });
-      const badge = checkBadges();
-      if (badge) setBadgeToast({ name: badge.name, icon: badge.icon });
-    },
   });
 }
 

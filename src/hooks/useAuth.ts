@@ -57,5 +57,14 @@ export function useLogout() {
       logout();
       toast.success('Logged out successfully');
     },
+    onError: (error:NestErrorResponse) => {
+      if (Array.isArray(error.message)) {
+        error.message.forEach((item) => {
+          toast.error(item);
+        });
+      } else {
+        toast.error(error.message);
+      }
+    },
   });
 }

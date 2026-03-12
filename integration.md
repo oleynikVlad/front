@@ -15,7 +15,9 @@ This document describes all required backend API endpoints, data models, and int
 - [Search Endpoints](#search-endpoints)
 - [Todo Ideas Endpoints](#todo-ideas-endpoints)
 - [Likes Endpoints](#likes-endpoints)
-- [Notifications (Future)](#notifications-future)
+- [Notifications Endpoints](#notifications-endpoints)
+- [Activity Endpoints](#activity-endpoints)
+- [Leaderboard Endpoints](#leaderboard-endpoints)
 - [Data Models](#data-models)
 - [Enumerations & Constants](#enumerations--constants)
 - [Pagination Contract](#pagination-contract)
@@ -24,7 +26,7 @@ This document describes all required backend API endpoints, data models, and int
 - [CORS Configuration](#cors-configuration)
 - [JWT Configuration](#jwt-configuration)
 - [Frontend Client Behavior](#frontend-client-behavior)
-- [Gamification (Client-Side)](#gamification-client-side)
+- [Gamification (Backend-Handled)](#gamification-backend-handled)
 
 ---
 
@@ -498,13 +500,11 @@ Get posts liked by the authenticated user.
 
 ---
 
-## Notifications (Future)
+## Notifications Endpoints
 
-The frontend defines a `Notification` type and renders notifications in the Navbar (`src/components/features/Navbar.tsx`). Currently, notifications are populated from mock data only (`src/services/mock/mockData.ts`) and no API service exists for fetching them.
+The frontend fetches notifications from the backend API and displays them in the Navbar.
 
-**When a real notifications API is needed**, the following endpoints should be implemented:
-
-### GET /notifications (Proposed)
+### GET /notifications
 
 **Headers:** Requires authentication.
 
@@ -523,7 +523,11 @@ The frontend defines a `Notification` type and renders notifications in the Navb
 ]
 ```
 
-### PATCH /notifications/:id/read (Proposed)
+**Frontend Reference:** `src/lib/api/notifications.ts` > `getNotifications()`
+
+---
+
+### PATCH /notifications/:id/read
 
 Mark a notification as read.
 
@@ -534,6 +538,73 @@ Mark a notification as read.
 ```json
 { "id": "string", "read": true }
 ```
+
+**Frontend Reference:** `src/lib/api/notifications.ts` > `markNotificationRead()`
+
+---
+
+## Activity Endpoints
+
+The frontend records user activities via the backend API. The backend is responsible for XP calculation, level progression, streak tracking, and badge awarding.
+
+### POST /activity
+
+Record a user activity event. The backend should calculate and award XP based on the activity type.
+
+**Headers:** Requires authentication.
+
+**Request Body:**
+
+```json
+{
+  "type": "read_post | like_post | like_idea | daily_visit",
+  "entityId": "string"
+}
+```
+
+**Response (200):**
+
+```json
+{
+  "xp": 10,
+  "totalXp": 130,
+  "level": 2
+}
+```
+
+**Notes:**
+- The backend should handle deduplication (e.g., reading the same post twice should not award XP twice)
+- The `entityId` is used for deduplication (e.g., post ID for read_post, `daily-YYYY-MM-DD` for daily_visit)
+- The backend should update the user's XP, level, streak, and badges accordingly
+
+**Frontend Reference:** `src/lib/api/activity.ts` > `recordActivity()`
+
+**Used by:** `src/components/features/DailyVisitChecker.tsx` (records daily_visit on app mount)
+
+---
+
+## Leaderboard Endpoints
+
+### GET /leaderboard
+
+Get the top users ranked by XP.
+
+**Response (200):**
+
+```json
+[
+  {
+    "id": "string",
+    "username": "string",
+    "displayName": "string",
+    "avatar": "string (URL)",
+    "xp": 1500,
+    "level": 6
+  }
+]
+```
+
+**Frontend Reference:** `src/lib/api/activity.ts` > `getLeaderboard()`
 
 ---
 
@@ -819,18 +890,16 @@ The frontend Axios interceptor extracts `error.response.data` and rejects with i
 The frontend uses the following environment variables:
 
 ```
-NEXT_PUBLIC_API_MODE=mock | real
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 | Variable               | Default                      | Description                                                            |
 |------------------------|------------------------------|------------------------------------------------------------------------|
-| `NEXT_PUBLIC_API_MODE` | `mock`                       | `"mock"` uses built-in mock services; `"real"` makes HTTP requests     |
 | `NEXT_PUBLIC_API_URL`  | `http://localhost:3001/api`  | Base URL for the backend API                                           |
 | `NEXT_PUBLIC_APP_URL`  | `http://localhost:3000`      | Public URL of the frontend (used for SEO, sitemap, share buttons)      |
 
-When `NEXT_PUBLIC_API_MODE=real`, the frontend will make real HTTP requests to the URL specified by `NEXT_PUBLIC_API_URL`. When set to `mock`, the frontend uses built-in mock services with simulated latency (200-600ms).
+The frontend always makes real HTTP requests to the URL specified by `NEXT_PUBLIC_API_URL`. Mock mode has been removed.
 
 ---
 
@@ -856,12 +925,6 @@ Required CORS settings:
 ---
 
 ## Frontend Client Behavior
-
-### API Mode Switching
-
-Every API function checks `config.apiMode`:
-- `"mock"` — calls local mock functions with simulated delay
-- `"real"` — calls the backend via Axios
 
 ### React Query Integration
 
@@ -902,20 +965,24 @@ The frontend uses three Zustand stores persisted to `localStorage`:
 
 ---
 
-## Gamification (Client-Side)
+## Gamification (Backend-Handled)
 
-The XP/gamification system is currently handled **entirely on the client side** using Zustand with localStorage persistence. The backend does **not** need to implement gamification logic unless server-side XP tracking is desired.
+The XP/gamification system must be handled **entirely by the backend**. The frontend only displays values returned by the API (via `GET /auth/profile` and `POST /activity`).
 
-### XP Rewards
+### Gamification Events
 
-| Action         | XP   | Trigger                        |
-|----------------|------|--------------------------------|
-| `read_post`    | 10   | Viewing a blog post            |
-| `like_post`    | 5    | Liking a blog post             |
-| `like_idea`    | 3    | Liking a todo idea             |
-| `daily_visit`  | 15   | First visit each calendar day  |
+The backend must implement XP rewards for the following activities:
+
+| Action         | Suggested XP | Trigger                        |
+|----------------|-------------|--------------------------------|
+| `read_post`    | 10          | Viewing a blog post            |
+| `like_post`    | 5           | Liking a blog post             |
+| `like_idea`    | 3           | Liking a todo idea             |
+| `daily_visit`  | 15          | First visit each calendar day  |
 
 ### XP Levels
+
+Suggested level thresholds:
 
 | Level | Min XP  | Title        |
 |-------|---------|--------------|
@@ -932,6 +999,8 @@ The XP/gamification system is currently handled **entirely on the client side** 
 
 ### Badges
 
+Suggested badge definitions (backend should award and return in user profile):
+
 | Badge ID      | Name       | Condition                |
 |---------------|------------|--------------------------|
 | `first-read`  | First Read | Read 1 article           |
@@ -943,7 +1012,15 @@ The XP/gamification system is currently handled **entirely on the client side** 
 
 ### Deduplication
 
-XP is only awarded once per action+entity combination. The client tracks actions using an array of `{ actionType, entityId, createdAt }` records persisted in localStorage. For example, viewing the same post twice will only grant XP on the first view.
+The backend must handle XP deduplication — XP is only awarded once per action+entity combination. For example, viewing the same post twice should only grant XP on the first view.
+
+### Frontend Gamification Display
+
+The frontend stores gamification data from the API in a Zustand store (`gamificationStore`) for display purposes only. It does NOT calculate XP, levels, or badges — it only renders what the API returns.
+
+Gamification data sources:
+- `GET /auth/profile` returns `xp`, `level`, `badges`, `streak` on the User object
+- `POST /activity` returns `xp` earned and updated `totalXp`, `level`
 
 ---
 
@@ -967,3 +1044,7 @@ XP is only awarded once per action+entity combination. The client tracks actions
 | GET    | /todo                | No            | List ideas (paginated)         |
 | POST   | /todo/:id/like       | Yes           | Toggle like on idea            |
 | GET    | /likes               | Yes           | Get user's liked posts         |
+| GET    | /notifications       | Yes           | Get user notifications         |
+| PATCH  | /notifications/:id/read | Yes        | Mark notification as read      |
+| POST   | /activity            | Yes           | Record user activity event     |
+| GET    | /leaderboard         | No            | Get top users by XP            |

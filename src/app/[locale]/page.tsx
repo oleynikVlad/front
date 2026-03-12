@@ -1,31 +1,25 @@
-'use client';
-
-import { TrendingUp, Clock, Sparkles, ArrowRight, BookOpen, Users, Zap } from 'lucide-react';
+import { TrendingUp, Clock, Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { motion } from 'framer-motion';
-import { useTrendingPosts, useLatestPosts, useRecommendedPosts } from '@/hooks/usePosts';
 import BlogCard from '@/components/features/BlogCard';
-import { CardSkeleton } from '@/components/ui/Skeleton';
-import Button from '@/components/ui/Button';
+import HomeHero from '@/components/features/HomeHero';
 import { CATEGORIES } from '@/types';
 import type { Post } from '@/types';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { getTrendingPosts, getLatestPosts, getRecommendedPosts } from '@/lib/api/posts';
 
 function PostSection({
   title,
   icon,
   posts,
-  isLoading,
   href,
+  viewAllLabel,
 }: {
   title: string;
   icon: React.ReactNode;
-  posts: Post[] | undefined;
-  isLoading: boolean;
+  posts: Post[];
   href: string;
+  viewAllLabel: string;
 }) {
-  const t = useTranslations('common');
-
   return (
     <section className="mb-16">
       <div className="flex items-center justify-between mb-6">
@@ -34,78 +28,48 @@ function PostSection({
           {title}
         </h2>
         <Link href={href} className="flex items-center gap-1 text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
-          {t('viewAll')} <ArrowRight className="w-4 h-4" />
+          {viewAllLabel} <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {isLoading
-          ? Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)
-          : posts?.slice(0, 3).map((post, i) => <BlogCard key={post.id} post={post} index={i} />)}
+        {posts.slice(0, 3).map((post, i) => <BlogCard key={post.id} post={post} index={i} />)}
       </div>
     </section>
   );
 }
 
-export default function HomePage() {
-  const t = useTranslations('home');
-  const tc = useTranslations('categories');
-  const trending = useTrendingPosts();
-  const latest = useLatestPosts();
-  const recommended = useRecommendedPosts();
+export default async function HomePage() {
+  const t = await getTranslations('home');
+  const tc = await getTranslations('categories');
+  const tCommon = await getTranslations('common');
+
+  let trending: Post[] = [];
+  let latest: Post[] = [];
+  let recommended: Post[] = [];
+
+  try {
+    [trending, latest, recommended] = await Promise.all([
+      getTrendingPosts(),
+      getLatestPosts(),
+      getRecommendedPosts(),
+    ]);
+  } catch {
+    // API may not be available yet — render with empty data
+  }
 
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/20 via-gray-950 to-gray-950" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              {t('hero.titleLine1')}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
-                {t('hero.titleAccent')}
-              </span>
-            </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
-              {t('hero.subtitle')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/blog">
-                <Button variant="primary" size="lg" className="gap-2">
-                  <BookOpen className="w-5 h-5" />
-                  {t('hero.ctaStartReading')}
-                </Button>
-              </Link>
-              <Link href="/login">
-                <Button variant="outline" size="lg" className="gap-2">
-                  <Zap className="w-5 h-5" />
-                  {t('hero.ctaJoin')}
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16"
-          >
-            {[
-              { label: t('stats.articles'), value: '24+', icon: <BookOpen className="w-4 h-4" /> },
-              { label: t('stats.authors'), value: '6+', icon: <Users className="w-4 h-4" /> },
-              { label: t('stats.xpToEarn'), value: '10K+', icon: <Zap className="w-4 h-4" /> },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="flex items-center justify-center gap-1.5 text-indigo-400 mb-1">{stat.icon}</div>
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <div className="text-xs text-gray-500">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      <HomeHero
+        titleLine1={t('hero.titleLine1')}
+        titleAccent={t('hero.titleAccent')}
+        subtitle={t('hero.subtitle')}
+        ctaStartReading={t('hero.ctaStartReading')}
+        ctaJoin={t('hero.ctaJoin')}
+        statsArticles={t('stats.articles')}
+        statsAuthors={t('stats.authors')}
+        statsXp={t('stats.xpToEarn')}
+      />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -128,25 +92,25 @@ export default function HomePage() {
         <PostSection
           title={t('sections.trending')}
           icon={<TrendingUp className="w-5 h-5 text-red-400" />}
-          posts={trending.data}
-          isLoading={trending.isLoading}
+          posts={trending}
           href="/search?sort=popular"
+          viewAllLabel={tCommon('viewAll')}
         />
 
         <PostSection
           title={t('sections.latest')}
           icon={<Clock className="w-5 h-5 text-blue-400" />}
-          posts={latest.data}
-          isLoading={latest.isLoading}
+          posts={latest}
           href="/search?sort=recent"
+          viewAllLabel={tCommon('viewAll')}
         />
 
         <PostSection
           title={t('sections.recommended')}
           icon={<Sparkles className="w-5 h-5 text-amber-400" />}
-          posts={recommended.data}
-          isLoading={recommended.isLoading}
+          posts={recommended}
           href="/search?sort=liked"
+          viewAllLabel={tCommon('viewAll')}
         />
       </div>
     </div>

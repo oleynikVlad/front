@@ -146,28 +146,6 @@ export interface PaginationParams {
   limit?: number;
 }
 
-// ============ Gamification ============
-export interface XPEvent {
-  type: 'read_post' | 'like_post' | 'like_idea' | 'daily_visit';
-  xp: number;
-  description: string;
-}
-
-export interface UserAction {
-  actionType: XPEvent['type'];
-  entityId: string;
-  createdAt: string;
-}
-
-export interface GamificationState {
-  xp: number;
-  level: number;
-  badges: Badge[];
-  streak: number;
-  lastVisit: string;
-  xpHistory: XPEvent[];
-}
-
 // ============ Notification ============
 export interface Notification {
   id: string;

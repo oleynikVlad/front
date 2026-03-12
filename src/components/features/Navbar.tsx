@@ -22,8 +22,6 @@ import { useGamificationStore } from '@/store/gamificationStore';
 import { useUIStore } from '@/store/uiStore';
 import { useLogout } from '@/hooks/useAuth';
 import { cn } from '@/utils/cn';
-import { getXpForNextLevel } from '@/utils/helpers';
-import { XP_LEVELS } from '@/config';
 import Button from '@/components/ui/Button';
 
 const NAV_LINKS = [
@@ -48,8 +46,6 @@ export default function Navbar() {
   const profileRef = useRef<HTMLDivElement>(null);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
-  const xpProgress = getXpForNextLevel(xp);
-  const levelTitle = XP_LEVELS.find((l) => l.level === level)?.title || 'Newcomer';
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -224,17 +220,9 @@ export default function Navbar() {
                         <div className="px-4 py-3 border-b border-gray-800">
                           <p className="text-sm font-semibold text-white">{user?.displayName}</p>
                           <p className="text-xs text-gray-500">@{user?.username}</p>
-                          <div className="mt-2">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="text-indigo-400">{levelTitle} (Lv.{level})</span>
-                              <span className="text-gray-500">{Math.round(xpProgress.progress)}%</span>
-                            </div>
-                            <div className="mt-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-indigo-500 rounded-full transition-all duration-500"
-                                style={{ width: `${xpProgress.progress}%` }}
-                              />
-                            </div>
+                          <div className="mt-2 flex items-center gap-2 text-xs">
+                            <span className="text-indigo-400">Lv.{level}</span>
+                            <span className="text-gray-500">{xp} XP</span>
                           </div>
                         </div>
                         <div className="py-1">
